@@ -1,6 +1,6 @@
 "use client"
 
-import { useRef, useMemo } from 'react'
+import { useRef, useMemo, useState, useEffect, useLayoutEffect } from 'react'
 import { Canvas, useFrame, extend } from '@react-three/fiber'
 import { OrbitControls, Effects } from '@react-three/drei'
 import { UnrealBloomPass } from 'three-stdlib'
@@ -8,119 +8,322 @@ import * as THREE from 'three'
 
 extend({ UnrealBloomPass })
 
-const ParticleSwarm = () => {
+// ── 配色（橘色）─────────────────────────────────────────────────
+const PALETTE = {
+  core:   new THREE.Color('#220a01'), // 球体本体，遮住背面点
+  ocean:  new THREE.Color('#7a2e08'), // 海洋：暗橘网格点
+  land:   new THREE.Color('#E35806'), // 陆地：主橘
+  hot:    new THREE.Color('#FF9A3D'), // 高亮 / 闪烁
+  glow:   new THREE.Color('#FF6A00'), // 大气辉光
+}
+
+const GLOBE_R = 26
+const MAP_SRC = '/images/earth-water.png' // 等距圆柱投影：陆地=暗，海洋=白
+
+type GlobeData = {
+  positions: Float32Array
+  colors: Float32Array
+  scales: Float32Array
+  count: number
+  landPos: THREE.Vector3[]
+}
+
+// ─────────────────────────────────────────────────────────────────
+// 点状世界地图地球
+// ─────────────────────────────────────────────────────────────────
+const DottedGlobe = () => {
   const meshRef = useRef<THREE.InstancedMesh>(null)
-  const count = 20000
+  const sparkRef = useRef<THREE.InstancedMesh>(null)
+  const groupRef = useRef<THREE.Group>(null)
+  const [data, setData] = useState<GlobeData | null>(null)
 
-  const dummy  = useMemo(() => new THREE.Object3D(), [])
-  const target = useMemo(() => new THREE.Vector3(), [])
-  const pColor = useMemo(() => new THREE.Color(), [])
+  const dummy = useMemo(() => new THREE.Object3D(), [])
+  const tmpColor = useMemo(() => new THREE.Color(), [])
+  const dotGeo = useMemo(() => new THREE.SphereGeometry(0.26, 6, 6), [])
+  const dotMat = useMemo(() => new THREE.MeshBasicMaterial({ color: 0xffffff }), [])
+  const sparkMat = useMemo(
+    () => new THREE.MeshBasicMaterial({ color: PALETTE.hot }),
+    [],
+  )
 
-  // ── 配色 ──
-  const palette = useMemo(() => ({
-    orange: new THREE.Color('#E35806'),
-    amber:  new THREE.Color('#FF9200'),
-    purple: new THREE.Color('#643EC7'),
-    pink:   new THREE.Color('#E35806'),
-  }), [])
+  // 读取地图像素 → 生成点阵
+  useEffect(() => {
+    let cancelled = false
+    const img = new Image()
+    img.src = MAP_SRC
+    img.onload = () => {
+      if (cancelled) return
+      const cw = 640
+      const ch = 320
+      const cv = document.createElement('canvas')
+      cv.width = cw
+      cv.height = ch
+      const ctx = cv.getContext('2d', { willReadFrequently: true })
+      if (!ctx) return
+      ctx.drawImage(img, 0, 0, cw, ch)
+      const px = ctx.getImageData(0, 0, cw, ch).data
 
-  const positions = useMemo(() => {
-    const pos: THREE.Vector3[] = []
-    for (let i = 0; i < count; i++)
-      pos.push(new THREE.Vector3(
-        (Math.random() - 0.5) * 100,
-        (Math.random() - 0.5) * 100,
-        (Math.random() - 0.5) * 100,
-      ))
-    return pos
-  }, [])
+      const sampleLand = (latDeg: number, lonDeg: number) => {
+        // 经度做水平镜像（1 - u），修正左右翻转
+        const u = 1 - ((lonDeg + 360) % 360) / 360
+        const v = (90 - latDeg) / 180
+        const x = Math.min(cw - 1, Math.max(0, Math.floor(u * cw)))
+        const y = Math.min(ch - 1, Math.max(0, Math.floor(v * ch)))
+        const lum = px[(y * cw + x) * 4] // 灰度（取 R 即可）
+        return lum < 128 // 暗 = 陆地
+      }
 
-  // ── 换成 SphereGeometry ──
-  const geometry = useMemo(() => new THREE.SphereGeometry(0.28, 6, 6), [])
-  const material = useMemo(() => new THREE.MeshBasicMaterial({ color: 0xffffff }), [])
+      const positions: number[] = []
+      const colors: number[] = []
+      const scales: number[] = []
+      const landPos: THREE.Vector3[] = []
+
+      const latStep = 1.4 // 纬线间隔（度）→ 地图清晰度
+      for (let lat = -89; lat <= 89; lat += latStep) {
+        const phi = (lat * Math.PI) / 180
+        const ring = Math.cos(phi)
+        const num = Math.max(1, Math.round(ring * 250)) // 每条纬线点数
+        for (let j = 0; j < num; j++) {
+          const lonDeg = (j / num) * 360
+          const lon = (lonDeg * Math.PI) / 180
+          const isLand = sampleLand(lat, lonDeg)
+
+          // 海洋只保留稀疏网格点，让陆地更突出
+          if (!isLand && j % 2 !== 0) continue
+
+          const x = GLOBE_R * ring * Math.cos(lon)
+          const y = GLOBE_R * Math.sin(phi)
+          const z = GLOBE_R * ring * Math.sin(lon)
+          positions.push(x, y, z)
+
+          if (isLand) {
+            // 陆地：主橘 → 赤道附近略偏亮琥珀
+            const equator = 1 - Math.abs(Math.sin(phi))
+            tmpColor.copy(PALETTE.land).lerp(PALETTE.hot, Math.pow(equator, 1.6) * 0.5)
+            colors.push(tmpColor.r, tmpColor.g, tmpColor.b)
+            scales.push(1.0)
+            landPos.push(new THREE.Vector3(x, y, z))
+          } else {
+            colors.push(PALETTE.ocean.r, PALETTE.ocean.g, PALETTE.ocean.b)
+            scales.push(0.62)
+          }
+        }
+      }
+
+      setData({
+        positions: new Float32Array(positions),
+        colors: new Float32Array(colors),
+        scales: new Float32Array(scales),
+        count: scales.length,
+        landPos,
+      })
+    }
+    return () => {
+      cancelled = true
+    }
+  }, [tmpColor])
+
+  // 写入实例矩阵 / 颜色（一次）
+  useLayoutEffect(() => {
+    const mesh = meshRef.current
+    if (!mesh || !data) return
+    for (let i = 0; i < data.count; i++) {
+      dummy.position.set(
+        data.positions[i * 3],
+        data.positions[i * 3 + 1],
+        data.positions[i * 3 + 2],
+      )
+      dummy.scale.setScalar(data.scales[i])
+      dummy.updateMatrix()
+      mesh.setMatrixAt(i, dummy.matrix)
+      tmpColor.setRGB(
+        data.colors[i * 3],
+        data.colors[i * 3 + 1],
+        data.colors[i * 3 + 2],
+      )
+      mesh.setColorAt(i, tmpColor)
+    }
+    mesh.instanceMatrix.needsUpdate = true
+    if (mesh.instanceColor) mesh.instanceColor.needsUpdate = true
+  }, [data, dummy, tmpColor])
+
+  // 闪烁点：随机陆地点位
+  const sparks = useMemo(() => {
+    if (!data) return [] as THREE.Vector3[]
+    const out: THREE.Vector3[] = []
+    const n = Math.min(220, data.landPos.length)
+    for (let i = 0; i < n; i++) {
+      out.push(data.landPos[Math.floor(Math.random() * data.landPos.length)])
+    }
+    return out
+  }, [data])
 
   useFrame((state) => {
-    if (!meshRef.current) return
     const time = state.clock.getElapsedTime()
+    if (groupRef.current) groupRef.current.rotation.y = time * 0.07
 
-    for (let i = 0; i < count; i++) {
-      const t = i / count
-
-      // ── USER CODE（原始球形分布，保持不变）──
-      const r     = 30
-      const phi   = Math.acos(-1 + (2 * i) / count)
-      const theta = Math.sqrt(count * Math.PI) * phi
-      target.set(
-        r * Math.cos(theta) * Math.sin(phi),
-        r * Math.sin(theta) * Math.sin(phi),
-        r * Math.cos(phi),
-      )
-
-      // ── 配色逻辑 ──
-      const len        = target.length()
-      const radial     = Math.min(1.0, len / (r * 1.42))
-      const radialEase = Math.pow(radial, 0.75)
-
-      // 1. 橙色基底
-      pColor.copy(palette.orange)
-
-      // 2. 外缘 → amber 提亮（最多 55%）
-      const edgeMix = Math.pow(Math.max(0, radial - 0.65) / 0.35, 1.5) * 0.55
-      pColor.lerp(palette.amber, edgeMix)
-
-   
-
-   
-      // 5. spark 高光
-      const spark = Math.sin(t * 1000.0 + time * 5.0) > 0.97 ? 1.0 : 0.0
-      if (spark > 0) pColor.lerp(palette.pink, 0.55)
-
-      // 6. 整体亮度
-      const activity   = Math.sin(time * 2.0 + t * 30.0) * 0.5 + 0.5
-      const brightness =
-        0.55 +
-        radialEase * 0.45 +
-        spark      * 0.25 +
-        activity   * 0.04
-      pColor.multiplyScalar(brightness)
-
-      // ── UPDATE（原始逻辑，保持不变）──
-      positions[i].lerp(target, 0.1)
-      dummy.position.copy(positions[i])
-      dummy.updateMatrix()
-      meshRef.current.setMatrixAt(i, dummy.matrix)
-      meshRef.current.setColorAt(i, pColor)
+    const spark = sparkRef.current
+    if (spark && sparks.length) {
+      for (let i = 0; i < sparks.length; i++) {
+        const p = sparks[i]
+        const pulse = Math.sin(time * 2.5 + i * 1.7) * 0.5 + 0.5
+        dummy.position.copy(p).multiplyScalar(1.004)
+        dummy.scale.setScalar(0.5 + pulse * 1.5)
+        dummy.updateMatrix()
+        spark.setMatrixAt(i, dummy.matrix)
+      }
+      spark.instanceMatrix.needsUpdate = true
     }
-
-    meshRef.current.instanceMatrix.needsUpdate = true
-    if (meshRef.current.instanceColor)
-      meshRef.current.instanceColor.needsUpdate = true
   })
 
   return (
-    <instancedMesh ref={meshRef} args={[geometry, material, count]} />
+    <group ref={groupRef}>
+      {/* 球体本体：遮住背面点，读作实心地球 */}
+      <mesh>
+        <sphereGeometry args={[GLOBE_R * 0.99, 64, 64]} />
+        <meshBasicMaterial color={PALETTE.core} />
+      </mesh>
+
+      {/* 点状地图 */}
+      {data && (
+        <instancedMesh
+          key={data.count}
+          ref={meshRef}
+          args={[dotGeo, dotMat, data.count]}
+        />
+      )}
+
+      {/* 陆地闪烁高光 */}
+      {data && sparks.length > 0 && (
+        <instancedMesh
+          key={`spark-${sparks.length}`}
+          ref={sparkRef}
+          args={[dotGeo, sparkMat, sparks.length]}
+        />
+      )}
+
+      {/* 大气辉光 */}
+      <mesh>
+        <sphereGeometry args={[GLOBE_R * 1.16, 48, 48]} />
+        <meshBasicMaterial
+          color={PALETTE.glow}
+          transparent
+          opacity={0.07}
+          side={THREE.BackSide}
+          blending={THREE.AdditiveBlending}
+          depthWrite={false}
+        />
+      </mesh>
+    </group>
   )
 }
 
-export default function BrainOrb() {
+// ─────────────────────────────────────────────────────────────────
+// 轨道：环线 + 在环上滑动的发光点
+// ─────────────────────────────────────────────────────────────────
+type OrbitProps = {
+  radius: number
+  tilt: [number, number, number]
+  spin: number
+  satellites: number
+  satSpeed: number
+  color: THREE.Color
+}
+
+const Orbit = ({ radius, tilt, spin, satellites, satSpeed, color }: OrbitProps) => {
+  const groupRef = useRef<THREE.Group>(null)
+  const satsRef = useRef<THREE.InstancedMesh>(null)
+  const dummy = useMemo(() => new THREE.Object3D(), [])
+
+  const ringGeo = useMemo(() => {
+    const seg = 160
+    const pts: THREE.Vector3[] = []
+    for (let i = 0; i < seg; i++) {
+      const a = (i / seg) * Math.PI * 2
+      pts.push(new THREE.Vector3(Math.cos(a) * radius, Math.sin(a) * radius, 0))
+    }
+    return new THREE.BufferGeometry().setFromPoints(pts)
+  }, [radius])
+
+  const satGeo = useMemo(() => new THREE.SphereGeometry(0.55, 12, 12), [])
+  const satMat = useMemo(() => new THREE.MeshBasicMaterial({ color }), [color])
+  const phases = useMemo(
+    () => Array.from({ length: satellites }, (_, i) => (i / satellites) * Math.PI * 2),
+    [satellites],
+  )
+
+  useFrame((state) => {
+    const time = state.clock.getElapsedTime()
+    if (groupRef.current) groupRef.current.rotation.z = time * spin
+    const sats = satsRef.current
+    if (sats) {
+      for (let i = 0; i < satellites; i++) {
+        const a = phases[i] + time * satSpeed
+        dummy.position.set(Math.cos(a) * radius, Math.sin(a) * radius, 0)
+        const pulse = 0.7 + (Math.sin(time * 3 + i) * 0.5 + 0.5) * 0.9
+        dummy.scale.setScalar(pulse)
+        dummy.updateMatrix()
+        sats.setMatrixAt(i, dummy.matrix)
+      }
+      sats.instanceMatrix.needsUpdate = true
+    }
+  })
+
   return (
-    <div className="w-full h-full">
+    <group ref={groupRef} rotation={tilt}>
+      <lineLoop geometry={ringGeo}>
+        <lineBasicMaterial
+          color={color}
+          transparent
+          opacity={0.3}
+          blending={THREE.AdditiveBlending}
+          depthWrite={false}
+        />
+      </lineLoop>
+      <instancedMesh ref={satsRef} args={[satGeo, satMat, satellites]} />
+    </group>
+  )
+}
+
+const OrbitSystem = () => {
+  const orbits: OrbitProps[] = useMemo(
+    () => [
+      { radius: 34, tilt: [1.3, 0.2, 0.4], spin: 0.18, satellites: 3, satSpeed: 0.6, color: PALETTE.hot },
+      { radius: 40, tilt: [0.5, 1.1, 0.0], spin: -0.12, satellites: 2, satSpeed: -0.45, color: PALETTE.land },
+      { radius: 46, tilt: [1.9, 0.6, 0.9], spin: 0.09, satellites: 4, satSpeed: 0.35, color: PALETTE.glow },
+    ],
+    [],
+  )
+  return (
+    <>
+      {orbits.map((o, i) => (
+        <Orbit key={i} {...o} />
+      ))}
+    </>
+  )
+}
+
+export default function Sphere() {
+  return (
+    <div className="w-full h-[clamp(340px,55vh,500px)] max-h-[500px]">
       <Canvas
-        camera={{ position: [0, 0, 100], fov: 60 }}
+        camera={{ position: [0, 6, 92], fov: 55 }}
         style={{ background: 'transparent' }}
+        gl={{ antialias: true }}
       >
-        <fog attach="fog" args={['#000000', 0.01]} />
-        <ParticleSwarm />
+        <fog attach="fog" args={['#000000', 120, 320]} />
+        <DottedGlobe />
+        <OrbitSystem />
         <OrbitControls
           autoRotate
-          autoRotateSpeed={0.4}
+          autoRotateSpeed={0.35}
           enableZoom={false}
           enablePan={false}
+          minPolarAngle={Math.PI / 3}
+          maxPolarAngle={(Math.PI * 2) / 3}
         />
         <Effects disableGamma>
-          <unrealBloomPass
-            args={[new THREE.Vector2(256, 256), 1.8, 0.4, 1]}
-          />
+          <unrealBloomPass args={[new THREE.Vector2(256, 256), 1.4, 0.6, 0]} />
         </Effects>
       </Canvas>
     </div>

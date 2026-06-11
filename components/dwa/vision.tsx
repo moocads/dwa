@@ -6,7 +6,7 @@ export function Vision() {
   const { ref, isVisible } = useInView()
 
   return (
-    <section className="bg-dwa-bg py-16 sm:py-24 border-t border-dwa-border">
+    <section id="vision" className="bg-dwa-bg py-16 sm:py-24 border-t border-dwa-border">
       <div ref={ref} className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="grid lg:grid-cols-2 gap-12 items-center">
           {/* Left Content */}

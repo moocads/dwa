@@ -96,6 +96,7 @@
   --animate-fade-up: fadeUp 0.7s ease forwards;
   --animate-pulse-slow: pulse 3s ease-in-out infinite;
   --animate-glow: glow 3s ease-in-out infinite;
+  --animate-halo-pulse: halo-pulse 4s ease-in-out infinite;
   
   @keyframes fadeUp {
     0% { opacity: 0; transform: translateY(40px); }
@@ -111,6 +112,24 @@
     0%, 100% { box-shadow: 0 0 60px 20px rgba(255, 98, 0, 0.3); }
     50% { box-shadow: 0 0 80px 30px rgba(255, 98, 0, 0.5); }
   }
+
+  @keyframes halo-pulse {
+    0%, 100% { opacity: 0.4; transform: scale(1); }
+    50% { opacity: 0.85; transform: scale(1.05); }
+  }
+
+  @keyframes partners-marquee-left {
+    from { transform: translateX(0); }
+    to { transform: translateX(-50%); }
+  }
+
+  @keyframes partners-marquee-right {
+    from { transform: translateX(-50%); }
+    to { transform: translateX(0); }
+  }
+
+  --animate-partners-left: partners-marquee-left 45s linear infinite;
+  --animate-partners-right: partners-marquee-right 55s linear infinite;
   --color-background: var(--background);
   --color-foreground: var(--foreground);
   --color-card: var(--card);
@@ -150,6 +169,14 @@
 }
 
 @layer base {
+  html {
+    scroll-behavior: smooth;
+  }
+
+  section[id] {
+    scroll-margin-top: 5rem;
+  }
+
   * {
     @apply border-border outline-ring/50;
   }

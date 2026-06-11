@@ -12,7 +12,7 @@ export function Hero() {
   const { ref: phoneRef, isVisible: phoneVisible } = useInView()
 
   return (
-    <section className="relative min-h-screen bg-dwa-bg overflow-hidden pt-20">
+    <section id="home" className="relative min-h-screen bg-dwa-bg overflow-hidden pt-20">
 
       {/* ① 波浪网格背景 — 最底层 */}
       <HeroGrid />
@@ -33,49 +33,51 @@ export function Hero() {
         }}
       />
 
-      {/* ④ 内容层 — z-10 确保在所有背景之上 */}
-      <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-3 lg:px-6 py-12 lg:py-20">
-        <div className="grid lg:grid-cols-2 gap-6 items-center">
-
-          {/* Left Content */}
+      <div className="relative z-10 mx-auto flex min-h-[calc(100vh-3rem)] max-w-7xl flex-col items-center justify-center px-4 py-10 sm:px-3 lg:px-6 lg:py-20">
+        <div className="flex w-full flex-col items-center justify-center">
           <div
             ref={titleRef}
-            className={`transition-all duration-700 ${
+            className={`mx-auto w-full max-w-4xl text-center transition-all duration-700 ${
               titleVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-10"
             }`}
           >
             <h1 className="text-3xl lg:text-5xl xl:text-6xl font-black text-white uppercase leading-[1.1] tracking-tight text-balance">
               THE WORLD&apos;S FIRST
               <br />
-              DECENTRALIZED
+             <span className="text-dwa-orange">DECENTRALIZED</span> 
               <br />
               BLACKROCK
             </h1>
 
-            <div className="mt-6 space-y-2">
-              <p className="text-dwa-orange text-lg sm:text-4xl">AI x Web3 x DAO x RWA</p>
-              <p className="text-dwa-orange text-lg sm:text-2xl">Asset Management Network</p>
+            <div className="mt-6">
+              <p className="text-balance bg-dwa-orange/30 rounded-full px-4 py-2 text-white text-lg sm:text-md border border-dwa-orange">
+                DWA is a Web3 financial operating system powered by AI × Web3 × DAO × RWA
+              </p>
             </div>
 
-            <div className="mt-8">
-              <p className="text-dwa-orange font-bold text-md">DWA</p>
-              <p className="text-dwa-text text-md">A WEB3</p>
-              <p className="text-dwa-text text-md">FINANCIAL</p>
-              <p className="text-dwa-text text-md">OPERATION</p>
-              <p className="text-dwa-text text-md">SYSTEM</p>
+            <div className="flex mt-8 justify-center">
+              <p className="text-dwa-orange font-bold text-md mr-2">DWA</p>
+              <p className="text-dwa-text text-md mr-2">A WEB3</p>
+              <p className="text-dwa-text text-md mr-2">FINANCIAL</p>
+              <p className="text-dwa-text text-md mr-2">OPERATION</p>
+              <p className="text-dwa-text text-md mr-2">SYSTEM</p>
               <p className="text-dwa-orange text-md">FOR EVERYONE</p>
             </div>
           </div>
 
+          <button className="border border-dwa-orange bg-dwa-orange text-white px-4 mt-8 sm:px-6 py-4 rounded-full text-md sm:text-md font-semibold hover:bg-dwa-orange hover:text-white transition-all duration-300 shrink-0">
+            Launch App
+          </button>
+
           {/* Right Content - Phone Mockup */}
-          <div
+          {/* <div
             ref={phoneRef}
             className={`transition-all duration-700 delay-300 ${
               phoneVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-10"
             }`}
           >
             <Image src="/images/app-mockup.png" alt="Phone Mockup" width={400} height={300} />
-          </div>
+          </div> */}
         </div>
       </div>
     </section>

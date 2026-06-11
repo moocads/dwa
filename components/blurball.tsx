@@ -1,6 +1,13 @@
+import { cn } from "@/lib/utils"
+
 export function BlurBall(props: { className?: string }) {
-    const { className } = props
+  const { className } = props
   return (
-    <div className={`w-[400px] h-[400px] bg-dwa-orange rounded-full blur-[150px] pointer-events-none ${className}`} />
+    <div
+      className={cn(
+        "pointer-events-none h-[400px] w-[400px] rounded-full bg-dwa-orange blur-[150px]",
+        className
+      )}
+    />
   )
 }

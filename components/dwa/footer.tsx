@@ -10,7 +10,7 @@ export function Footer() {
         </p>
         <div className="mt-8 pt-8 border-t border-dwa-border">
           <p className="text-dwa-text/60 text-xs">
-            © {new Date().getFullYear()} DWA. All rights reserved.
+            © {new Date().getFullYear()} DWA Labs. All rights reserved.
           </p>
         </div>
       </div>

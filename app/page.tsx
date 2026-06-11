@@ -5,7 +5,10 @@ import { WhatIsDwa } from "@/components/dwa/what-is-dwa"
 import { Comparison } from "@/components/dwa/comparison"
 import { Features } from "@/components/dwa/features"
 import { WhyChoose } from "@/components/dwa/why-choose"
-import { NetworkDiagram } from "@/components/dwa/network-diagram"
+import { Technology } from "@/components/dwa/technology"
+import { Ecosystem } from "@/components/dwa/ecosystem"
+import { Partners } from "@/components/dwa/partners"
+
 import { Vision } from "@/components/dwa/vision"
 import { Footer } from "@/components/dwa/footer"
 
@@ -15,12 +18,14 @@ export default function Home() {
       <Navbar />
       <Hero />
       <StatsBar />
-      <WhatIsDwa />
-      <Comparison />
-      <Features />
+      {/* <WhatIsDwa /> */}
+      {/* <Comparison /> */}
       <WhyChoose />
-      <NetworkDiagram />
+      <Features />
+      <Technology />
+      <Ecosystem />
       <Vision />
+      <Partners />
       <Footer />
     </main>
   )

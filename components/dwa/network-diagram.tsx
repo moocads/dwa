@@ -21,10 +21,10 @@ export function NetworkDiagram() {
   const { ref, isVisible } = useInView()
 
   return (
-    <section className="overflow-hidden bg-dwa-bg py-16 sm:py-24">
-      <div ref={ref} className="mx-auto max-w-4xl px-4 sm:px-6 lg:px-8">
+    <section id="ecosystem" className=" py-16 sm:py-24">
+      <div ref={ref} className="mx-auto max-w-xl px-4 sm:px-6 lg:px-8">
         <div
-          className={`relative mx-auto aspect-square max-w-2xl transition-all duration-1000 [--orbit-r:min(17rem,47vw)] sm:[--orbit-r:min(18.5rem,49vw)] ${
+          className={`relative mx-auto aspect-square max-w-xl transition-all duration-1000 [--orbit-r:min(17rem,47vw)] sm:[--orbit-r:min(18.5rem,49vw)] ${
             isVisible ? "scale-100 opacity-100" : "scale-90 opacity-0"
           }`}
         >
@@ -62,7 +62,7 @@ export function NetworkDiagram() {
           </svg>
 
           {/* 静态标签：极坐标均匀分布，无旋转 → 全部 horizontal */}
-          {NODES.map((label, i) => {
+          {/* {NODES.map((label, i) => {
             const theta = (i * Math.PI) / 3
             const x = Math.sin(theta)
             const y = -Math.cos(theta)
@@ -88,7 +88,7 @@ export function NetworkDiagram() {
                 </div>
               </div>
             )
-          })}
+          })} */}
 
           {/* 中心圆形图（盖在圆线与标签之上） */}
           <div className="pointer-events-none absolute left-1/2 top-1/2 z-20 flex h-[min(76%,304px)] w-[min(76%,304px)] -translate-x-1/2 -translate-y-1/2 items-center justify-center sm:h-[min(80%,352px)] sm:w-[min(80%,352px)]">

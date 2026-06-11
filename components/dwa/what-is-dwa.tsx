@@ -2,13 +2,14 @@
 
 import { useInView } from "@/hooks/use-in-view"
 import { BlurBall } from "@/components/blurball"
+import { NetworkDiagram } from "@/components/dwa/network-diagram"
 
 export function WhatIsDwa() {
   const { ref: textRef, isVisible: textVisible } = useInView()
   const { ref: cardRef, isVisible: cardVisible } = useInView()
 
   return (
-    <section id="about" className="relative overflow-hidden bg-dwa-bg py-24 sm:py-32">
+    <section id="about" className="relative overflow-hidden bg-dwa-bg py-10 sm:py-6">
             {/* 色标须从 0% → 100% 递增；两侧深色、中间透明以遮住 video 边缘 */}
       <div
         className="pointer-events-none absolute inset-0 z-[1] w-full h-full"
@@ -59,14 +60,17 @@ export function WhatIsDwa() {
           </div>
 
           {/* Right Content - Dashboard Card */}
-          <div
+          <div className="p-20">
+                 <NetworkDiagram />
+          </div>
+          {/* <div
             ref={cardRef}
             className={`transition-all duration-700 delay-200 ${
               cardVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-10"
             }`}
           >
             <div className="bg-dwa-card border border-dwa-border rounded-2xl p-6 sm:p-8">
-              {/* Header */}
+      
               <div className="flex items-center justify-between mb-6">
                 <span className="text-dwa-text text-sm">RISK DASHBOARD</span>
                 <span className="text-dwa-orange text-xs bg-dwa-orange/10 px-3 py-1 rounded-full">
@@ -74,7 +78,7 @@ export function WhatIsDwa() {
                 </span>
               </div>
 
-              {/* Metrics */}
+    
               <div className="grid grid-cols-2 gap-6 mb-6">
                 <div>
                   <p className="text-3xl sm:text-4xl font-bold text-white">24,850</p>
@@ -86,19 +90,19 @@ export function WhatIsDwa() {
                 </div>
               </div>
 
-              {/* Node Level */}
+       
               <div className="flex items-center justify-between py-4 border-t border-dwa-border">
                 <span className="text-dwa-text text-sm">Node Level</span>
                 <span className="text-dwa-orange font-semibold">DIAMOND</span>
               </div>
 
-              {/* Network Rank */}
+      
               <div className="flex items-center justify-between py-4 border-t border-dwa-border">
                 <span className="text-dwa-text text-sm">Network Rank</span>
                 <span className="text-white font-semibold">#131</span>
               </div>
             </div>
-          </div>
+          </div> */}
         </div>
       </div>
     </section>
