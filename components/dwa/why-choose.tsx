@@ -2,81 +2,59 @@
 
 import {
   Rocket,
-  Globe,
   ShieldCheck,
   Atom,
   Boxes,
   Radio,
-  Send,
   KeyRound,
   type LucideIcon,
 } from "lucide-react"
 import { useInView } from "@/hooks/use-in-view"
 import Sphere from "@/components/Sphere"
+import { BlurBall } from "@/components/blurball"
 
 type Feature = {
   icon: LucideIcon
   title: string
   description: string
-  value: string
 }
 
 const features: Feature[] = [
   {
     icon: Rocket,
-    title: "Low-Cost Deployment",
+    title: "Low-Cost & Domainless Operation",
     description:
-      "DWA supports low-cost or even near-zero-cost app deployment and distribution, so Web3 apps no longer depend heavily on expensive centralized cloud services and traditional infrastructure.",
-    value: "Lowers the barrier to development and deployment, letting more apps join the DWA ecosystem.",
-  },
-  {
-    icon: Globe,
-    title: "Domainless Operation",
-    description:
-      "DWA explores app access without traditional domains or centralized servers, reducing reliance on Web2 infrastructure.",
-    value: "Reduces the risk of being blocked, hijacked, or controlled by a single point.",
+      "Near-zero-cost app deployment and domainless access — without reliance on expensive cloud infrastructure or centralized servers.",
   },
   {
     icon: ShieldCheck,
     title: "Anti-DDoS & Privacy Protection",
     description:
-      "Through decentralized networks and encrypted communication, DWA reduces risks from DDoS attacks, data breaches, and centralized platform control.",
-    value: "Improves system stability while protecting user privacy and interaction security.",
+      "Decentralized networks and encrypted communication against DDoS, breaches, and platform control.",
   },
   {
     icon: Atom,
     title: "Quantum-Resistant Security",
     description:
-      "DWA treats cutting-edge cryptography as a long-term security direction, preparing for potential challenges from future computing power.",
-    value: "Provides stronger security evolution for long-term financial infrastructure.",
+      "Advanced cryptography built for long-term resilience against future computing threats.",
   },
   {
     icon: Boxes,
     title: "Fully Decentralized Applications",
     description:
-      "DWA goes beyond putting assets on-chain — it aims to progressively decentralize app access, data transfer, identity verification, asset operations, and governance.",
-    value: "Keeps applications from being controlled by any single platform or centralized server.",
+      "Decentralizes app access, data transfer, identity, assets, and governance — not just on-chain assets.",
   },
   {
     icon: Radio,
-    title: "Trusted App-to-Device Communication",
+    title: "Trusted & Borderless Communication",
     description:
-      "DWA enables trusted communication between apps and between devices, so data transfer can be verified and protected within a decentralized network.",
-    value: "Builds a safer, more trustworthy environment for Web3 app interactions.",
-  },
-  {
-    icon: Send,
-    title: "Borderless Global Messaging",
-    description:
-      "With DWA's decentralized network capabilities, apps and messaging are no longer limited by geography or traditional network borders.",
-    value: "Lets users worldwide access Web3 financial services more freely.",
+      "Verified app-to-device data transfer and borderless messaging free from geographic limits and network borders.",
   },
   {
     icon: KeyRound,
     title: "Access Authentication & Ownership",
     description:
-      "DWA emphasizes user control over identity, data, app access, and asset gateways, reducing the risk of unilateral bans, freezes, or revoked access by platforms.",
-    value: "Users truly own their assets, identity, and data gateway.",
+      "User-controlled identity, data, app access, and asset gateways — no unilateral platform bans.",
   },
 ]
 
@@ -122,10 +100,13 @@ export function WhyChoose() {
         </div>
 
         {/* Row 2: 4 cards per row */}
-        <div
-          ref={cardsRef}
-          className="mt-10 lg:mt-16 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4"
-        >
+        <div className="relative mt-10 lg:mt-16">
+          <BlurBall className="pointer-events-none absolute bottom-0 left-0 z-0 -translate-x-1/3 translate-y-1/3 h-[420px] w-[420px] sm:h-[500px] sm:w-[500px]" />
+          <div
+            ref={cardsRef}
+            className="relative z-10 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4"
+          >
+
           {features.map((feature, index) => {
             const Icon = feature.icon
             return (
@@ -136,7 +117,6 @@ export function WhyChoose() {
                 }`}
                 style={{ transitionDelay: `${index * 70}ms` }}
               >
-                <div className="min-h-[250px]">
                 <div className="flex h-10 w-10 items-center justify-center rounded-xl border border-dwa-orange/25 bg-dwa-orange/10 text-dwa-orange transition-colors duration-100 group-hover:bg-dwa-orange/20">
                   <Icon className="h-5 w-5" strokeWidth={1.75} />
                 </div>
@@ -148,21 +128,10 @@ export function WhyChoose() {
                 <p className="mt-2 text-[13px] leading-relaxed text-neutral-400">
                   {feature.description}
                 </p>
-                </div>
-                <div className="h-px w-full bg-dwa-orange/20 mb-2" />
-                <div className="relative items-end gap-1 justify-end">
-                  <span className="text-[12px] font-bold text-dwa-orange">
-                    Core Value
-                  </span>
-                <div className="mt-2 inline-flex items-center gap-1.5 self-start rounded-[5px] border border-dwa-orange/20 bg-dwa-orange/5 px-2.5 py-1">
-                  <span className="text-[12px] font-medium text-dwa-orange">
-                    {feature.value}
-                  </span>
-                </div>
-                </div>
               </div>
             )
           })}
+          </div>
         </div>
       </div>
     </section>

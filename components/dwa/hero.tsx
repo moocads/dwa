@@ -55,13 +55,22 @@ export function Hero() {
               </p>
             </div>
 
-            <div className="flex mt-8 justify-center">
-              <p className="text-dwa-orange font-bold text-md mr-2">DWA</p>
-              <p className="text-dwa-text text-md mr-2">A WEB3</p>
-              <p className="text-dwa-text text-md mr-2">FINANCIAL</p>
-              <p className="text-dwa-text text-md mr-2">OPERATION</p>
-              <p className="text-dwa-text text-md mr-2">SYSTEM</p>
-              <p className="text-dwa-orange text-md">FOR EVERYONE</p>
+            <div className="mt-8 text-center">
+              <div className="flex flex-col items-center gap-2 sm:hidden">
+                <p className="text-dwa-orange text-lg font-bold">DWA</p>
+                <p className="text-dwa-text text-base leading-snug">
+                  A WEB3 FINANCIAL OPERATION SYSTEM
+                </p>
+                <p className="text-dwa-orange text-base font-semibold">FOR EVERYONE</p>
+              </div>
+              <div className="hidden flex-wrap items-center justify-center gap-x-2 sm:flex">
+                <p className="text-dwa-orange text-md font-bold">DWA</p>
+                <p className="text-dwa-text text-md">A WEB3</p>
+                <p className="text-dwa-text text-md">FINANCIAL</p>
+                <p className="text-dwa-text text-md">OPERATION</p>
+                <p className="text-dwa-text text-md">SYSTEM</p>
+                <p className="text-dwa-orange text-md">FOR EVERYONE</p>
+              </div>
             </div>
           </div>
 
