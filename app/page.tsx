@@ -17,11 +17,11 @@ export default function Home() {
     <main className="min-h-screen bg-dwa-bg">
       <Navbar />
       <Hero />
-      <StatsBar />
+      {/* <StatsBar /> */}
       {/* <WhatIsDwa /> */}
       {/* <Comparison /> */}
       <WhyChoose />
-      <Features />
+      {/* <Features /> */}
       <Technology />
       <Ecosystem />
       <Vision />
