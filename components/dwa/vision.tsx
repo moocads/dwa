@@ -17,11 +17,11 @@ export function Vision() {
           >
             <p className="text-dwa-orange text-sm font-semibold tracking-wider mb-4">OUR VISION</p>
             <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold text-white leading-tight text-balance">
-              Redefining Asset
+              A Self-Governing Asset Civilization. 
               <br />
-              <span className="text-dwa-orange">Management</span> for
-              <br />
-              the On-Chain Era
+              <span className="text-dwa-orange">For the World.</span>
+       
+    
             </h2>
           </div>
 
@@ -31,12 +31,11 @@ export function Vision() {
               isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-10"
             }`}
           >
-            <p className="text-dwa-text leading-relaxed">
-              DWA is built on the belief that the future of asset management should
-              be more open, intelligent, and participatory. By combining the
-              infrastructure of Web3, the coordination logic of DAO, the scalability
-              vision of RWA, and the strategic potential of AI, DWA aims to shape a
-              new generation of decentralized asset networks.
+            <p className="text-dwa-orange leading-relaxed">
+              Assets from everywhere, accessible to everyone.
+            </p>
+              <p className="text-dwa-orange leading-relaxed">
+              Every strategy defined by you, executed by AI.
             </p>
           </div>
         </div>

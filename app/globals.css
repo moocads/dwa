@@ -97,6 +97,9 @@
   --animate-pulse-slow: pulse 3s ease-in-out infinite;
   --animate-glow: glow 3s ease-in-out infinite;
   --animate-halo-pulse: halo-pulse 4s ease-in-out infinite;
+  --animate-vision-halo-1: vision-halo-1 32s ease-in-out infinite;
+  --animate-vision-halo-2: vision-halo-2 40s ease-in-out infinite;
+  --animate-vision-halo-3: vision-halo-3 36s ease-in-out infinite;
   
   @keyframes fadeUp {
     0% { opacity: 0; transform: translateY(40px); }
@@ -116,6 +119,23 @@
   @keyframes halo-pulse {
     0%, 100% { opacity: 0.4; transform: scale(1); }
     50% { opacity: 0.85; transform: scale(1.05); }
+  }
+
+  @keyframes vision-halo-1 {
+    0%, 100% { transform: translate(0%, 0%) scale(1); opacity: 0.45; }
+    33% { transform: translate(18%, -12%) scale(1.12); opacity: 0.65; }
+    66% { transform: translate(-10%, 14%) scale(0.92); opacity: 0.5; }
+  }
+
+  @keyframes vision-halo-2 {
+    0%, 100% { transform: translate(0%, 0%) scale(1); opacity: 0.35; }
+    40% { transform: translate(-16%, 10%) scale(1.08); opacity: 0.55; }
+    70% { transform: translate(12%, -8%) scale(0.95); opacity: 0.4; }
+  }
+
+  @keyframes vision-halo-3 {
+    0%, 100% { transform: translate(0%, 0%) scale(1); opacity: 0.3; }
+    50% { transform: translate(8%, 16%) scale(1.15); opacity: 0.5; }
   }
 
   @keyframes partners-marquee-left {

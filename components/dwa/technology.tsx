@@ -2,6 +2,7 @@
 
 import {
   Network,
+  ShieldCheck,
   BrainCircuit,
   Landmark,
   Vote,
@@ -20,22 +21,36 @@ type Protocol = {
 const protocols: Protocol[] = [
   {
     icon: Network,
-    title: "Network & Privacy Protocol",
-    copy: "Builds a decentralized P2P network with encrypted communication and privacy protection — enabling censorship resistance, borderless access, and secure application runtime.",
+    title: "Decentralized Network Protocol",
+    copy: "Builds a P2P overlay network that reduces single-point-of-failure risk, enabling censorship resistance, borderless access, and decentralized application runtime.",
     keywords: [
       "P2P Network",
-      "Hybrid Encryption",
+      "No Single Point of Failure",
       "Censorship Resistance",
+      "Global Access",
+      "Address-as-Application Framework",
+    ],
+  },
+  {
+    icon: ShieldCheck,
+    title: "Privacy & Encryption Protocol",
+    copy: "Protects user data, interaction behavior, and financial privacy through encrypted communication, content privacy, relationship privacy, and multi-point distribution mechanisms.",
+    keywords: [
+      "Relationship Privacy",
+      "Content Privacy",
+      "Hybrid Encryption",
+      "Encrypted Communication",
       "Data Security",
     ],
   },
   {
     icon: BrainCircuit,
-    title: "AI Agent Protocol",
-    copy: "Embedded AI Agents deliver market analysis, strategy assistance, risk identification, and intelligent scheduling — all within protocol-defined rules.",
+    title: "AI Agent Reasoning & Strategy Protocol",
+    copy: "Embedded AI Agents perform market analysis, strategy assistance, path optimization, risk identification, and intelligent scheduling — all within protocol-defined rules.",
     keywords: [
       "AI Agent",
       "Strategy Reasoning",
+      "Multi-Agent Collaboration",
       "Risk Identification",
       "Intelligent Scheduling",
     ],
@@ -43,20 +58,22 @@ const protocols: Protocol[] = [
   {
     icon: Landmark,
     title: "RWA Asset Protocol",
-    copy: "Connects real-world assets to the on-chain network, supporting tokenization, mapping, circulation, and protocol-based management of RWA assets.",
+    copy: "Connects real-world assets to the on-chain asset network, supporting the onboarding, mapping, circulation, and protocol-based management of RWA assets.",
     keywords: [
       "RWA",
-      "Asset Tokenization",
+      "Real-World Asset Tokenization",
+      "Asset Protocolization",
       "On-Chain Liquidity",
       "Global Asset Gateway",
     ],
   },
   {
     icon: Vote,
-    title: "DAO Governance Protocol",
-    copy: "Manages system parameters, rule upgrades, and ecosystem collaboration through DAO governance — evolving DWA into a self-governing financial network.",
+    title: "DAO Governance & Organization Protocol",
+    copy: "Manages system parameters, rule upgrades, ecosystem collaboration, and long-term evolution through DAO governance — transforming DWA from a centralized platform into a self-governing financial network.",
     keywords: [
       "DAO Governance",
+      "Parameter Management",
       "Protocol Upgrades",
       "Community Coordination",
       "Self-Evolution",
@@ -84,18 +101,18 @@ export function Technology() {
           <p className="mt-2 text-lg sm:text-xl font-semibold text-dwa-orange">
             Core Technology
           </p>
-          <div className="mt-5 space-y-3 text-sm sm:text-base leading-relaxed text-neutral-300/90">
+          {/* <div className="mt-5 space-y-3 text-sm sm:text-base leading-relaxed text-neutral-300/90">
             <p>
               At its foundation, DWA is not a single application or a single smart
-              contract — it is a Web3 financial operating system built on four core
+              contract — it is a Web3 financial operating system built on five core
               protocol modules.
             </p>
             <p>
-              These four protocols handle network infrastructure, AI reasoning, asset
-              onboarding, and DAO governance, providing the infrastructure backbone
-              for DWA&apos;s long-term ecosystem expansion.
+              These five protocols handle network communication, privacy protection,
+              AI reasoning, asset onboarding, and DAO governance, providing the
+              infrastructure backbone for DWA&apos;s long-term ecosystem expansion.
             </p>
-          </div>
+          </div> */}
         </div>
 
         {/* Banner + protocol stack */}
@@ -122,7 +139,7 @@ export function Technology() {
                   }`}
                   style={{ transitionDelay: `${index * 90}ms` }}
                 >
-                  <div className="flex items-center gap-4 sm:w-44 sm:shrink-0 sm:flex-col sm:items-start sm:gap-3">
+                  <div className="flex items-center gap-4 sm:w-12 sm:shrink-0 sm:flex-col sm:items-start sm:gap-3">
                     <span className="font-medium text-2xl font-bold text-dwa-orange/40">
                       {String(index + 1).padStart(2, "0")}
                     </span>

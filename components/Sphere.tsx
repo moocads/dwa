@@ -1,20 +1,17 @@
 "use client"
 
 import { useRef, useMemo, useState, useEffect, useLayoutEffect } from 'react'
-import { Canvas, useFrame, extend } from '@react-three/fiber'
-import { OrbitControls, Effects } from '@react-three/drei'
-import { UnrealBloomPass } from 'three-stdlib'
+import { Canvas, useFrame } from '@react-three/fiber'
+import { OrbitControls } from '@react-three/drei'
 import * as THREE from 'three'
-
-extend({ UnrealBloomPass })
 
 // ── 配色（橘色）─────────────────────────────────────────────────
 const PALETTE = {
-  core:   new THREE.Color('#220a01'), // 球体本体，遮住背面点
-  ocean:  new THREE.Color('#7a2e08'), // 海洋：暗橘网格点
-  land:   new THREE.Color('#E35806'), // 陆地：主橘
-  hot:    new THREE.Color('#FF9A3D'), // 高亮 / 闪烁
-  glow:   new THREE.Color('#FF6A00'), // 大气辉光
+  core:   new THREE.Color('#000000'), // 与页面纯黑背景一致
+  ocean:  new THREE.Color('#5a2206'), // 海洋点略压暗，减少整体泛红
+  land:   new THREE.Color('#E35806'),
+  hot:    new THREE.Color('#FF9A3D'),
+  glow:   new THREE.Color('#FF6A00'),
 }
 
 const GLOBE_R = 26
@@ -202,13 +199,24 @@ const DottedGlobe = () => {
         />
       )}
 
-      {/* 大气辉光 */}
+      {/* 大气辉光 — 内外两层，自然扩散 */}
       <mesh>
         <sphereGeometry args={[GLOBE_R * 1.16, 48, 48]} />
         <meshBasicMaterial
           color={PALETTE.glow}
           transparent
-          opacity={0.07}
+          opacity={0.09}
+          side={THREE.BackSide}
+          blending={THREE.AdditiveBlending}
+          depthWrite={false}
+        />
+      </mesh>
+      <mesh>
+        <sphereGeometry args={[GLOBE_R * 1.55, 32, 32]} />
+        <meshBasicMaterial
+          color={PALETTE.glow}
+          transparent
+          opacity={0.03}
           side={THREE.BackSide}
           blending={THREE.AdditiveBlending}
           depthWrite={false}
@@ -235,18 +243,30 @@ const Orbit = ({ radius, tilt, spin, satellites, satSpeed, color }: OrbitProps) 
   const satsRef = useRef<THREE.InstancedMesh>(null)
   const dummy = useMemo(() => new THREE.Object3D(), [])
 
-  const ringGeo = useMemo(() => {
-    const seg = 160
-    const pts: THREE.Vector3[] = []
-    for (let i = 0; i < seg; i++) {
-      const a = (i / seg) * Math.PI * 2
-      pts.push(new THREE.Vector3(Math.cos(a) * radius, Math.sin(a) * radius, 0))
+  const { tubeGeo, glowTubeGeo } = useMemo(() => {
+    const curve = new THREE.EllipseCurve(0, 0, radius, radius, 0, Math.PI * 2, false, 0)
+    const path = new THREE.CatmullRomCurve3(
+      curve.getPoints(200).map((p) => new THREE.Vector3(p.x, p.y, 0)),
+      true,
+    )
+    return {
+      tubeGeo: new THREE.TubeGeometry(path, 200, 0.13, 10, true),
+      glowTubeGeo: new THREE.TubeGeometry(path, 200, 0.32, 10, true),
     }
-    return new THREE.BufferGeometry().setFromPoints(pts)
   }, [radius])
 
-  const satGeo = useMemo(() => new THREE.SphereGeometry(0.55, 12, 12), [])
-  const satMat = useMemo(() => new THREE.MeshBasicMaterial({ color }), [color])
+  const satGeo = useMemo(() => new THREE.SphereGeometry(0.62, 12, 12), [])
+  const satMat = useMemo(
+    () =>
+      new THREE.MeshBasicMaterial({
+        color: PALETTE.hot,
+        transparent: true,
+        opacity: 0.95,
+        blending: THREE.AdditiveBlending,
+        depthWrite: false,
+      }),
+    [],
+  )
   const phases = useMemo(
     () => Array.from({ length: satellites }, (_, i) => (i / satellites) * Math.PI * 2),
     [satellites],
@@ -260,7 +280,7 @@ const Orbit = ({ radius, tilt, spin, satellites, satSpeed, color }: OrbitProps) 
       for (let i = 0; i < satellites; i++) {
         const a = phases[i] + time * satSpeed
         dummy.position.set(Math.cos(a) * radius, Math.sin(a) * radius, 0)
-        const pulse = 0.7 + (Math.sin(time * 3 + i) * 0.5 + 0.5) * 0.9
+        const pulse = 0.85 + (Math.sin(time * 3 + i) * 0.5 + 0.5) * 0.55
         dummy.scale.setScalar(pulse)
         dummy.updateMatrix()
         sats.setMatrixAt(i, dummy.matrix)
@@ -271,15 +291,26 @@ const Orbit = ({ radius, tilt, spin, satellites, satSpeed, color }: OrbitProps) 
 
   return (
     <group ref={groupRef} rotation={tilt}>
-      <lineLoop geometry={ringGeo}>
-        <lineBasicMaterial
-          color={color}
+      {/* 外层柔光 */}
+      <mesh geometry={glowTubeGeo}>
+        <meshBasicMaterial
+          color={PALETTE.glow}
           transparent
-          opacity={0.3}
+          opacity={0.14}
           blending={THREE.AdditiveBlending}
           depthWrite={false}
         />
-      </lineLoop>
+      </mesh>
+      {/* 主轨道 */}
+      <mesh geometry={tubeGeo}>
+        <meshBasicMaterial
+          color={color}
+          transparent
+          opacity={0.62}
+          blending={THREE.AdditiveBlending}
+          depthWrite={false}
+        />
+      </mesh>
       <instancedMesh ref={satsRef} args={[satGeo, satMat, satellites]} />
     </group>
   )
@@ -288,9 +319,9 @@ const Orbit = ({ radius, tilt, spin, satellites, satSpeed, color }: OrbitProps) 
 const OrbitSystem = () => {
   const orbits: OrbitProps[] = useMemo(
     () => [
-      { radius: 34, tilt: [1.3, 0.2, 0.4], spin: 0.18, satellites: 3, satSpeed: 0.6, color: PALETTE.hot },
+      { radius: 34, tilt: [1.3, 0.2, 0.4], spin: 0.18, satellites: 3, satSpeed: 0.6, color: PALETTE.land },
       { radius: 40, tilt: [0.5, 1.1, 0.0], spin: -0.12, satellites: 2, satSpeed: -0.45, color: PALETTE.land },
-      { radius: 46, tilt: [1.9, 0.6, 0.9], spin: 0.09, satellites: 4, satSpeed: 0.35, color: PALETTE.glow },
+      { radius: 46, tilt: [1.9, 0.6, 0.9], spin: 0.09, satellites: 4, satSpeed: 0.35, color: PALETTE.land },
     ],
     [],
   )
@@ -305,27 +336,41 @@ const OrbitSystem = () => {
 
 export default function Sphere() {
   return (
-    <div className="w-full h-[clamp(340px,55vh,500px)] max-h-[500px]">
-      <Canvas
-        camera={{ position: [0, 6, 92], fov: 55 }}
-        style={{ background: 'transparent' }}
-        gl={{ antialias: true }}
-      >
-        <fog attach="fog" args={['#000000', 120, 320]} />
-        <DottedGlobe />
-        <OrbitSystem />
-        <OrbitControls
-          autoRotate
-          autoRotateSpeed={0.35}
-          enableZoom={false}
-          enablePan={false}
-          minPolarAngle={Math.PI / 3}
-          maxPolarAngle={(Math.PI * 2) / 3}
-        />
-        <Effects disableGamma>
-          <unrealBloomPass args={[new THREE.Vector2(256, 256), 1.4, 0.6, 0]} />
-        </Effects>
-      </Canvas>
+    <div
+      className="relative w-full overflow-visible"
+      style={{
+        maskImage:
+          "radial-gradient(ellipse 78% 72% at 50% 50%, #000 38%, transparent 100%)",
+        WebkitMaskImage:
+          "radial-gradient(ellipse 78% 72% at 50% 50%, #000 38%, transparent 100%)",
+      }}
+    >
+      <div className="relative h-[clamp(380px,58vh,560px)] w-full max-h-[560px] overflow-visible">
+        <Canvas
+          camera={{ position: [0, 5, 108], fov: 58 }}
+          className="!h-full !w-full"
+          style={{ background: "transparent", overflow: "visible" }}
+          gl={{
+            antialias: true,
+            alpha: true,
+            premultipliedAlpha: false,
+          }}
+          onCreated={({ gl }) => {
+            gl.setClearColor(0x000000, 0)
+          }}
+        >
+          <DottedGlobe />
+          <OrbitSystem />
+          <OrbitControls
+            autoRotate
+            autoRotateSpeed={0.35}
+            enableZoom={false}
+            enablePan={false}
+            minPolarAngle={Math.PI / 3}
+            maxPolarAngle={(Math.PI * 2) / 3}
+          />
+        </Canvas>
+      </div>
     </div>
   )
 }

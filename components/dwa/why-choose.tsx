@@ -1,5 +1,6 @@
 "use client"
 
+import { useState } from "react"
 import {
   Rocket,
   ShieldCheck,
@@ -7,8 +8,10 @@ import {
   Boxes,
   Radio,
   KeyRound,
+  ChevronRight,
   type LucideIcon,
 } from "lucide-react"
+import { cn } from "@/lib/utils"
 import { useInView } from "@/hooks/use-in-view"
 import Sphere from "@/components/Sphere"
 import { BlurBall } from "@/components/blurball"
@@ -58,9 +61,78 @@ const features: Feature[] = [
   },
 ]
 
+function FeatureCard({
+  feature,
+  index,
+  visible,
+  expanded,
+  onToggle,
+}: {
+  feature: Feature
+  index: number
+  visible: boolean
+  expanded: boolean
+  onToggle: () => void
+}) {
+  const Icon = feature.icon
+
+  return (
+    <div
+      className={cn(
+        "group flex flex-col rounded-2xl border border-dwa-orange/15 bg-[#0a0a0a] p-5 transition-all duration-300 hover:border-dwa-orange/50 hover:shadow-[0_0_24px_rgba(227,88,6,0.25)]",
+        visible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-6"
+      )}
+      style={{ transitionDelay: `${index * 70}ms` }}
+    >
+      <div className="flex h-10 w-10 items-center justify-center rounded-xl border border-dwa-orange/25 bg-dwa-orange/10 text-dwa-orange transition-colors duration-100 group-hover:bg-dwa-orange/20">
+        <Icon className="h-5 w-5" strokeWidth={1.75} />
+      </div>
+
+      <h3 className="mt-4 text-base font-semibold text-white">{feature.title}</h3>
+
+      <div
+        className={cn(
+          "grid transition-[grid-template-rows] duration-300 ease-in-out",
+          expanded ? "mt-2 grid-rows-[1fr]" : "grid-rows-[0fr]"
+        )}
+      >
+        <div className="overflow-hidden">
+          <p className="text-[13px] leading-relaxed text-neutral-400">
+            {feature.description}
+          </p>
+        </div>
+      </div>
+
+      <button
+        type="button"
+        onClick={onToggle}
+        className="mt-4 inline-flex items-center gap-1 self-start text-xs font-semibold text-dwa-orange transition-colors hover:text-dwa-orange/80"
+      >
+        {expanded ? "Read less" : "Read more"}
+        <ChevronRight
+          className={cn(
+            "h-3.5 w-3.5 transition-transform duration-300",
+            expanded && "rotate-90"
+          )}
+        />
+      </button>
+    </div>
+  )
+}
+
 export function WhyChoose() {
   const { ref: orbRef, isVisible: orbVisible } = useInView()
   const { ref: cardsRef, isVisible: cardsVisible } = useInView()
+  const [expanded, setExpanded] = useState<Set<string>>(new Set())
+
+  const toggleCard = (title: string) => {
+    setExpanded((prev) => {
+      const next = new Set(prev)
+      if (next.has(title)) next.delete(title)
+      else next.add(title)
+      return next
+    })
+  }
 
   return (
     <section id="why-dwa" className="bg-black py-16 sm:py-24 lg:py-28">
@@ -73,7 +145,7 @@ export function WhyChoose() {
             <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold text-white tracking-tight">
               Why Choose <span className="text-dwa-orange">DWA</span>?
             </h2>
-            <div className="mt-5 space-y-3 text-sm sm:text-base leading-relaxed text-neutral-300/90">
+            {/* <div className="mt-5 space-y-3 text-sm sm:text-base leading-relaxed text-neutral-300/90">
               <p>
                 Traditional Web2 and centralized financial systems rely on servers,
                 domains, account systems, and platform permissions. Users' data, asset
@@ -84,55 +156,43 @@ export function WhyChoose() {
                 scheduling, and DAO governance to build a more open, secure,
                 censorship-resistant, and scalable Web3 financial operating system.
               </p>
-            </div>
-          </div>
+            </div> */}
 
-              <div
-            ref={orbRef}
-            className={`flex w-full items-center justify-center transition-all duration-700 ${
-              orbVisible ? "opacity-100 scale-100" : "opacity-0 scale-[0.92]"
-            }`}
-          >
-            <div className="w-full">
-              <Sphere />
-            </div>
-          </div>
-        </div>
-
-        {/* Row 2: 4 cards per row */}
-        <div className="relative mt-10 lg:mt-16">
+                    <div className="relative mt-10 lg:mt-16">
           <BlurBall className="pointer-events-none absolute bottom-0 left-0 z-0 -translate-x-1/3 translate-y-1/3 h-[420px] w-[420px] sm:h-[500px] sm:w-[500px]" />
           <div
             ref={cardsRef}
             className="relative z-10 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4"
           >
 
-          {features.map((feature, index) => {
-            const Icon = feature.icon
-            return (
-              <div
-                key={feature.title}
-                className={`group flex flex-col rounded-2xl border border-dwa-orange/15 bg-[#0a0a0a] p-5 transition-all duration-100 hover:border-dwa-orange/50 hover:shadow-[0_0_24px_rgba(227,88,6,0.25)] ${
-                  cardsVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-6"
-                }`}
-                style={{ transitionDelay: `${index * 70}ms` }}
-              >
-                <div className="flex h-10 w-10 items-center justify-center rounded-xl border border-dwa-orange/25 bg-dwa-orange/10 text-dwa-orange transition-colors duration-100 group-hover:bg-dwa-orange/20">
-                  <Icon className="h-5 w-5" strokeWidth={1.75} />
-                </div>
-
-                <h3 className="mt-4 text-base font-semibold text-white">
-                  {feature.title}
-                </h3>
-
-                <p className="mt-2 text-[13px] leading-relaxed text-neutral-400">
-                  {feature.description}
-                </p>
-              </div>
-            )
-          })}
+          {features.map((feature, index) => (
+            <FeatureCard
+              key={feature.title}
+              feature={feature}
+              index={index}
+              visible={cardsVisible}
+              expanded={expanded.has(feature.title)}
+              onToggle={() => toggleCard(feature.title)}
+            />
+          ))}
           </div>
         </div>
+          </div>
+
+              <div
+            ref={orbRef}
+            className={`flex w-full items-center justify-center overflow-visible transition-all duration-700 ${
+              orbVisible ? "opacity-100 scale-100" : "opacity-0 scale-[0.92]"
+            }`}
+          >
+            <div className="w-full overflow-visible">
+              <Sphere />
+            </div>
+          </div>
+        </div>
+
+        {/* Row 2: 4 cards per row */}
+
       </div>
     </section>
   )
