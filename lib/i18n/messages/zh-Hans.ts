@@ -4,7 +4,7 @@ export const zhHans: Translations = {
   nav: {
     home: "首页",
     whyChoose: "为什么选择 DWA",
-    technology: "技术",
+    technology: "技术优势",
     ecosystem: "生态系统",
     vision: "我们的愿景",
     partners: "合作伙伴",
@@ -13,7 +13,7 @@ export const zhHans: Translations = {
   hero: {
     headline1: "全球首个",
     headline2: "去中心化",
-    headline3: "BLACKROCK",
+    headline3: "BLACKROCK黑石",
     tagline: "DWA 是由 AI × Web3 × DAO × RWA 驱动的 Web3 金融操作系统",
     taglineMobile2: "面向所有人的",
     taglineMobile3: "WEB3 金融操作系统",
@@ -29,12 +29,12 @@ export const zhHans: Translations = {
           "应用部署几乎零成本，并可无域名访问，不再依赖高成本云基础设施或中心化服务器。",
       },
       antiDdos: {
-        title: "抗 DDoS 与隐私保护",
+        title: "抗DDoS与隐私保护",
         description:
           "通过去中心化网络与加密通信，有效抵御 DDoS、数据泄露与平台控制。",
       },
       quantum: {
-        title: "抗量子安全",
+        title: "量子安全",
         description:
           "采用先进密码学方案，为未来算力威胁提供长期韧性保障。",
       },
@@ -90,7 +90,7 @@ export const zhHans: Translations = {
     },
   },
   ecosystem: {
-    title: "生态系统",
+    title: "DWA生态系统",
     p1: "DWA 不是单一功能产品，而是由九大生态支柱构成的 Web3 金融操作系统。",
     p2: "覆盖交易、支付、资产管理、RWA、AI、应用基础设施、钱包、社交与借贷，九大支柱共同形成链上资产完整闭环。",
     bannerAlt: "DWA 生态全景",
@@ -145,9 +145,9 @@ export const zhHans: Translations = {
     },
   },
   vision: {
-    label: "我们的愿景",
-    title: "一个自治的资产文明。",
-    titleHighlight: "面向全世界。",
+    label: "DWA最终愿景",
+    title: "构建一个全球自治的资产管理文明体系。",
+    titleHighlight: "面向全球。",
     p1: "让来自各地的资产，人人可及。",
     p2: "每一项策略由你定义，由 AI 执行。",
   },

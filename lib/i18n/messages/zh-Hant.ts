@@ -4,7 +4,7 @@ export const zhHant: Translations = {
   nav: {
     home: "首頁",
     whyChoose: "為何選擇 DWA",
-    technology: "技術",
+    technology: "技術優勢",
     ecosystem: "生態系",
     vision: "我們的願景",
     partners: "合作夥伴",
@@ -13,7 +13,7 @@ export const zhHant: Translations = {
   hero: {
     headline1: "全球首個",
     headline2: "去中心化",
-    headline3: "BLACKROCK",
+    headline3: "BLACKROCK黑石",
     tagline: "DWA 是由 AI × Web3 × DAO × RWA 驅動的 Web3 金融作業系統",
     taglineMobile2: "為所有人打造的",
     taglineMobile3: "WEB3 金融作業系統",
@@ -145,11 +145,11 @@ export const zhHant: Translations = {
     },
   },
   vision: {
-    label: "我們的願景",
-    title: "一個自我治理的資產文明。",
-    titleHighlight: "為全世界而生。",
-    p1: "讓來自各地的資產，人人都能觸及。",
-    p2: "每一項策略由你定義，交由 AI 執行。",
+    label: "DWA最終願景",
+    title: "構建一個全球自治的資產管理文明體系。",
+    titleHighlight: "面向全球。",
+    p1: "讓來自各地的資產，人人可及。",
+    p2: "每一項策略由你定義，由 AI 執行。",
   },
   partners: {
     title: "我們的合作夥伴",
