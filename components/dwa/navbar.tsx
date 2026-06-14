@@ -2,38 +2,45 @@
 
 import Link from "next/link"
 import Image from "next/image"
-import { useCallback, useEffect, useState } from "react"
+import { useCallback, useEffect, useMemo, useState } from "react"
 import { cn } from "@/lib/utils"
+import { LanguageSelector } from "@/components/dwa/language-selector"
+import { useLocale } from "@/contexts/locale-context"
 
-const NAV_ITEMS = [
-  { label: "Home", id: "home" },
-  { label: "Why Choose DWA", id: "why-dwa" },
-  { label: "Technology", id: "technology" },
-  { label: "Ecosystem", id: "ecosystem" },
-  { label: "Our Vision", id: "vision" },
-  { label: "Partners", id: "partners" },
-] as const
-
-type NavId = (typeof NAV_ITEMS)[number]["id"]
+type NavId = "home" | "why-dwa" | "technology" | "ecosystem" | "vision" | "partners"
 
 const NAV_OFFSET = 88
 
 export function Navbar() {
+  const { t } = useLocale()
   const [scrolled, setScrolled] = useState(false)
   const [activeId, setActiveId] = useState<NavId>("home")
+
+  const navItems = useMemo(
+    () =>
+      [
+        { id: "home" as const, label: t.nav.home },
+        { id: "why-dwa" as const, label: t.nav.whyChoose },
+        { id: "technology" as const, label: t.nav.technology },
+        { id: "ecosystem" as const, label: t.nav.ecosystem },
+        { id: "vision" as const, label: t.nav.vision },
+        { id: "partners" as const, label: t.nav.partners },
+      ],
+    [t]
+  )
 
   const updateActiveSection = useCallback(() => {
     const scrollPos = window.scrollY + NAV_OFFSET
 
     let current: NavId = "home"
-    for (const item of NAV_ITEMS) {
+    for (const item of navItems) {
       const section = document.getElementById(item.id)
       if (section && section.offsetTop <= scrollPos) {
         current = item.id
       }
     }
     setActiveId(current)
-  }, [])
+  }, [navItems])
 
   useEffect(() => {
     const handleScroll = () => {
@@ -78,7 +85,7 @@ export function Navbar() {
           </Link>
 
           <div className="hidden md:flex items-center gap-3 lg:gap-6 xl:gap-8">
-            {NAV_ITEMS.map((item) => (
+            {navItems.map((item) => (
               <a
                 key={item.id}
                 href={`#${item.id}`}
@@ -98,9 +105,12 @@ export function Navbar() {
             ))}
           </div>
 
-          <button className="border border-dwa-orange text-dwa-orange px-4 sm:px-6 py-2 rounded-full text-xs sm:text-sm font-semibold hover:bg-dwa-orange hover:text-white transition-all duration-300 shrink-0">
-            Launch App
-          </button>
+          <div className="flex items-center gap-2 sm:gap-3 shrink-0">
+            <button className="border border-dwa-orange text-dwa-orange px-4 sm:px-6 py-2 rounded-full text-xs sm:text-sm font-semibold hover:bg-dwa-orange hover:text-white transition-all duration-300 shrink-0">
+              {t.nav.launchApp}
+            </button>
+            <LanguageSelector />
+          </div>
         </div>
       </div>
     </nav>

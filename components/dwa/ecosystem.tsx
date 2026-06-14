@@ -16,6 +16,8 @@ import {
 } from "lucide-react"
 import { cn } from "@/lib/utils"
 import { useInView } from "@/hooks/use-in-view"
+import { useTranslations } from "@/contexts/locale-context"
+import type { EcosystemModuleKey, Translations } from "@/lib/i18n/types"
 import {
   Accordion,
   AccordionContent,
@@ -53,99 +55,23 @@ function positionsEqual(a: FlowPositions | null, b: FlowPositions): boolean {
 const orangeAlpha = (alpha: number) => `rgba(${ORANGE_RGB}, ${alpha})`
 
 type Cell = {
-  key: string
-  name: string
-  tag: string
+  key: EcosystemModuleKey
   Icon: LucideIcon
   col: number
   row: number
-  desc: string
   core?: boolean
 }
 
 const CELLS: Cell[] = [
-  {
-    key: "rwa",
-    name: "RWA Protocol",
-    tag: "Real-World Assets",
-    Icon: Landmark,
-    col: 0,
-    row: 0,
-    desc: "Connects real-world assets — real estate, bonds, funds, equities, gold, ETFs — to Web3 liquidity.",
-  },
-  {
-    key: "card",
-    name: "DWA Card",
-    tag: "Payments",
-    Icon: CreditCard,
-    col: 1,
-    row: 0,
-    desc: "Bridges crypto assets to real-world spending and global payment settlement.",
-  },
-  {
-    key: "earn",
-    name: "DWA Earn",
-    tag: "Yield",
-    Icon: TrendingUp,
-    col: 2,
-    row: 0,
-    desc: "Asset allocation, strategy aggregation, and on-chain financial services for users.",
-  },
-  {
-    key: "wallet",
-    name: "DWA Wallet",
-    tag: "Account",
-    Icon: Wallet,
-    col: 0,
-    row: 1,
-    desc: "Unified on-chain identity, multi-chain asset management, transaction history, and ecosystem access.",
-  },
-  {
-    key: "swap",
-    name: "DWA Swap",
-    tag: "Liquidity Core",
-    Icon: ArrowLeftRight,
-    col: 1,
-    row: 1,
-    core: true,
-    desc: "On-chain asset swaps, cross-chain trading, and liquidity aggregation — the core powering the entire DWA ecosystem.",
-  },
-  {
-    key: "ai",
-    name: "AI Agent",
-    tag: "Intelligence",
-    Icon: Bot,
-    col: 2,
-    row: 1,
-    desc: "Market analysis, strategy assistance, risk identification, and automated financial decision support.",
-  },
-  {
-    key: "lending",
-    name: "DWA Lending",
-    tag: "Credit",
-    Icon: Coins,
-    col: 0,
-    row: 2,
-    desc: "On-chain lending, collateralization, and liquidity release to maximize asset efficiency.",
-  },
-  {
-    key: "social",
-    name: "DWA Social",
-    tag: "Identity",
-    Icon: Users,
-    col: 1,
-    row: 2,
-    desc: "Decentralized identity (DID), on-chain relationships, social credit, and Web3 profile.",
-  },
-  {
-    key: "web3",
-    name: "Web3 App Network",
-    tag: "Infrastructure",
-    Icon: Globe,
-    col: 2,
-    row: 2,
-    desc: "Low-cost Web3 app deployment with serverless runtime, global access, and ecosystem scalability.",
-  },
+  { key: "rwa", Icon: Landmark, col: 0, row: 0 },
+  { key: "card", Icon: CreditCard, col: 1, row: 0 },
+  { key: "earn", Icon: TrendingUp, col: 2, row: 0 },
+  { key: "wallet", Icon: Wallet, col: 0, row: 1 },
+  { key: "swap", Icon: ArrowLeftRight, col: 1, row: 1, core: true },
+  { key: "ai", Icon: Bot, col: 2, row: 1 },
+  { key: "lending", Icon: Coins, col: 0, row: 2 },
+  { key: "social", Icon: Users, col: 1, row: 2 },
+  { key: "web3", Icon: Globe, col: 2, row: 2 },
 ]
 
 const MOBILE_CELLS = [
@@ -153,7 +79,11 @@ const MOBILE_CELLS = [
   ...CELLS.filter((c) => !c.core),
 ]
 
-function EcosystemMobileAccordion() {
+function EcosystemMobileAccordion({
+  modules,
+}: {
+  modules: Translations["ecosystem"]["modules"]
+}) {
   return (
     <Accordion
       type="single"
@@ -162,7 +92,8 @@ function EcosystemMobileAccordion() {
       className="flex flex-col gap-3"
     >
       {MOBILE_CELLS.map((cell) => {
-        const { Icon, core } = cell
+        const { Icon, core, key } = cell
+        const module = modules[key]
         return (
           <AccordionItem
             key={cell.key}
@@ -188,17 +119,17 @@ function EcosystemMobileAccordion() {
                 </div>
                 <div className="min-w-0 text-left">
                   <div className="text-sm font-semibold leading-tight text-white">
-                    {cell.name}
+                    {module.name}
                   </div>
                   <div className="mt-0.5 text-[10px] uppercase tracking-wider text-dwa-orange/85">
-                    {cell.tag}
+                    {module.tag}
                   </div>
                 </div>
               </div>
             </AccordionTrigger>
             <AccordionContent className="px-4 pb-4">
               <p className="text-[13px] leading-relaxed text-neutral-400">
-                {cell.desc}
+                {module.desc}
               </p>
             </AccordionContent>
           </AccordionItem>
@@ -310,6 +241,7 @@ function Flows({
 
 function EcosystemCard({
   cell,
+  module,
   active,
   anyActive,
   onEnter,
@@ -318,6 +250,7 @@ function EcosystemCard({
   cardRef,
 }: {
   cell: Cell
+  module: { name: string; tag: string; desc: string }
   active: boolean
   anyActive: boolean
   onEnter: () => void
@@ -364,10 +297,10 @@ function EcosystemCard({
         </div>
         <div className="min-w-0">
           <div className="text-md font-semibold leading-tight text-white">
-            {cell.name}
+            {module.name}
           </div>
           <div className="mt-0.5 text-[12px] font-medium uppercase tracking-wider text-dwa-orange/85">
-            {cell.tag}
+            {module.tag}
           </div>
         </div>
       </div>
@@ -382,7 +315,7 @@ function EcosystemCard({
         style={{ borderRadius: active ? "0 0 14px 14px" : undefined }}
       >
         <p className="m-0 text-[11.5px] leading-relaxed text-neutral-400">
-          {cell.desc}
+          {module.desc}
         </p>
       </div>
     </div>
@@ -390,6 +323,7 @@ function EcosystemCard({
 }
 
 function EcosystemGrid() {
+  const t = useTranslations()
   const [hover, setHover] = useState<string | null>(null)
   const [pinned, setPinned] = useState<string | null>(null)
   const gridRef = useRef<HTMLDivElement>(null)
@@ -488,15 +422,14 @@ function EcosystemGrid() {
       )}
     >
       <p className="mb-6 text-center text-sm text-neutral-400 lg:hidden">
-        Tap a module to expand and read what it does.
+        {t.ecosystem.gridHintMobile}
       </p>
       <p className="mb-6 hidden text-center text-sm text-neutral-400 lg:block">
-        Liquidity flows from DWA Swap at the center out to every module. Hover or
-        tap a card to read what it does.
+        {t.ecosystem.gridHintDesktop}
       </p>
 
       <div className="mx-auto max-w-[920px] lg:hidden">
-        <EcosystemMobileAccordion />
+        <EcosystemMobileAccordion modules={t.ecosystem.modules} />
       </div>
 
       <div className="relative mx-auto hidden max-w-[920px] pb-24 lg:block">
@@ -510,6 +443,7 @@ function EcosystemGrid() {
             <EcosystemCard
               key={cell.key}
               cell={cell}
+              module={t.ecosystem.modules[cell.key]}
               active={isActive(cell.key)}
               anyActive={anyActive}
               onEnter={() => setHover(cell.key)}
@@ -528,6 +462,7 @@ function EcosystemGrid() {
 }
 
 export function Ecosystem() {
+  const t = useTranslations()
   const { ref: headRef, isVisible: headVisible } = useInView()
 
   return (
@@ -541,25 +476,18 @@ export function Ecosystem() {
         >
           <div className="max-w-xl">
             <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold text-white tracking-tight">
-              Ecosystem
+              {t.ecosystem.title}
             </h2>
             <div className="mt-5 space-y-3 text-sm sm:text-base leading-relaxed text-neutral-400">
-              <p>
-                DWA is not a single-function product — it is a Web3 financial
-                operating system built on nine ecosystem pillars.
-              </p>
-              <p>
-                Spanning trading, payments, asset management, RWA, AI, app
-                infrastructure, wallets, social, and lending, these nine pillars
-                form a complete closed-loop for on-chain assets.
-              </p>
+              <p>{t.ecosystem.p1}</p>
+              <p>{t.ecosystem.p2}</p>
             </div>
           </div>
 
           <div className="relative mx-auto w-full max-w-lg lg:max-w-none lg:ml-auto">
             <Image
               src="/images/ecosystem-banner-2.png"
-              alt="DWA ecosystem overview"
+              alt={t.ecosystem.bannerAlt}
               width={350}
               height={543}
               className="w-[450px] h-auto object-contain"

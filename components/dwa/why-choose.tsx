@@ -13,68 +13,51 @@ import {
 } from "lucide-react"
 import { cn } from "@/lib/utils"
 import { useInView } from "@/hooks/use-in-view"
+import { useTranslations } from "@/contexts/locale-context"
+import type { FeatureKey } from "@/lib/i18n/types"
 import Sphere from "@/components/Sphere"
 import { BlurBall } from "@/components/blurball"
 
-type Feature = {
-  icon: LucideIcon
-  title: string
-  description: string
-}
-
-const features: Feature[] = [
-  {
-    icon: Rocket,
-    title: "Low-Cost & Domainless Operation",
-    description:
-      "Near-zero-cost app deployment and domainless access — without reliance on expensive cloud infrastructure or centralized servers.",
-  },
-  {
-    icon: ShieldCheck,
-    title: "Anti-DDoS & Privacy Protection",
-    description:
-      "Decentralized networks and encrypted communication against DDoS, breaches, and platform control.",
-  },
-  {
-    icon: Atom,
-    title: "Quantum-Resistant Security",
-    description:
-      "Advanced cryptography built for long-term resilience against future computing threats.",
-  },
-  {
-    icon: Boxes,
-    title: "Fully Decentralized Applications",
-    description:
-      "Decentralizes app access, data transfer, identity, assets, and governance — not just on-chain assets.",
-  },
-  {
-    icon: Radio,
-    title: "Trusted & Borderless Communication",
-    description:
-      "Verified app-to-device data transfer and borderless messaging free from geographic limits and network borders.",
-  },
-  {
-    icon: KeyRound,
-    title: "Access Authentication & Ownership",
-    description:
-      "User-controlled identity, data, app access, and asset gateways — no unilateral platform bans.",
-  },
+const FEATURE_KEYS: FeatureKey[] = [
+  "lowCost",
+  "antiDdos",
+  "quantum",
+  "decentralized",
+  "communication",
+  "ownership",
 ]
 
+const FEATURE_ICONS: Record<FeatureKey, LucideIcon> = {
+  lowCost: Rocket,
+  antiDdos: ShieldCheck,
+  quantum: Atom,
+  decentralized: Boxes,
+  communication: Radio,
+  ownership: KeyRound,
+}
+
 function FeatureCard({
-  feature,
+  featureKey,
+  title,
+  description,
   index,
   visible,
   expanded,
   onToggle,
+  readMore,
+  readLess,
 }: {
-  feature: Feature
+  featureKey: FeatureKey
+  title: string
+  description: string
   index: number
   visible: boolean
   expanded: boolean
   onToggle: () => void
+  readMore: string
+  readLess: string
 }) {
-  const Icon = feature.icon
+  const Icon = FEATURE_ICONS[featureKey]
 
   return (
     <div
@@ -88,7 +71,7 @@ function FeatureCard({
         <Icon className="h-5 w-5" strokeWidth={1.75} />
       </div>
 
-      <h3 className="mt-4 text-base font-semibold text-white">{feature.title}</h3>
+      <h3 className="mt-4 text-base font-semibold text-white">{title}</h3>
 
       <div
         className={cn(
@@ -97,9 +80,7 @@ function FeatureCard({
         )}
       >
         <div className="overflow-hidden">
-          <p className="text-[13px] leading-relaxed text-neutral-400">
-            {feature.description}
-          </p>
+          <p className="text-[13px] leading-relaxed text-neutral-400">{description}</p>
         </div>
       </div>
 
@@ -108,7 +89,7 @@ function FeatureCard({
         onClick={onToggle}
         className="mt-4 inline-flex items-center gap-1 self-start text-xs font-semibold text-dwa-orange transition-colors hover:text-dwa-orange/80"
       >
-        {expanded ? "Read less" : "Read more"}
+        {expanded ? readLess : readMore}
         <ChevronRight
           className={cn(
             "h-3.5 w-3.5 transition-transform duration-300",
@@ -121,15 +102,16 @@ function FeatureCard({
 }
 
 export function WhyChoose() {
+  const t = useTranslations()
   const { ref: orbRef, isVisible: orbVisible } = useInView()
   const { ref: cardsRef, isVisible: cardsVisible } = useInView()
-  const [expanded, setExpanded] = useState<Set<string>>(new Set())
+  const [expanded, setExpanded] = useState<Set<FeatureKey>>(new Set())
 
-  const toggleCard = (title: string) => {
+  const toggleCard = (key: FeatureKey) => {
     setExpanded((prev) => {
       const next = new Set(prev)
-      if (next.has(title)) next.delete(title)
-      else next.add(title)
+      if (next.has(key)) next.delete(key)
+      else next.add(key)
       return next
     })
   }
@@ -137,49 +119,40 @@ export function WhyChoose() {
   return (
     <section id="why-dwa" className="bg-black py-16 sm:py-24 lg:py-28">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        {/* Row 1: left Sphere, right Title + description */}
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-10 lg:gap-14 items-center">
-      
-
           <div className="text-center lg:text-left">
             <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold text-white tracking-tight">
-              Why Choose <span className="text-dwa-orange">DWA</span>?
+              {t.whyChoose.title}
             </h2>
-            {/* <div className="mt-5 space-y-3 text-sm sm:text-base leading-relaxed text-neutral-300/90">
-              <p>
-                Traditional Web2 and centralized financial systems rely on servers,
-                domains, account systems, and platform permissions. Users' data, asset
-                access, and control all remain in the hands of platforms.
-              </p>
-              <p>
-                DWA leverages decentralized networks, privacy encryption, AI
-                scheduling, and DAO governance to build a more open, secure,
-                censorship-resistant, and scalable Web3 financial operating system.
-              </p>
-            </div> */}
 
-                    <div className="relative mt-10 lg:mt-16">
-          <BlurBall className="pointer-events-none absolute bottom-0 left-0 z-0 -translate-x-1/3 translate-y-1/3 h-[420px] w-[420px] sm:h-[500px] sm:w-[500px]" />
-          <div
-            ref={cardsRef}
-            className="relative z-10 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4"
-          >
-
-          {features.map((feature, index) => (
-            <FeatureCard
-              key={feature.title}
-              feature={feature}
-              index={index}
-              visible={cardsVisible}
-              expanded={expanded.has(feature.title)}
-              onToggle={() => toggleCard(feature.title)}
-            />
-          ))}
-          </div>
-        </div>
-          </div>
-
+            <div className="relative mt-10 lg:mt-16">
+              <BlurBall className="pointer-events-none absolute bottom-0 left-0 z-0 -translate-x-1/3 translate-y-1/3 h-[420px] w-[420px] sm:h-[500px] sm:w-[500px]" />
               <div
+                ref={cardsRef}
+                className="relative z-10 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4"
+              >
+                {FEATURE_KEYS.map((key, index) => {
+                  const feature = t.whyChoose.features[key]
+                  return (
+                    <FeatureCard
+                      key={key}
+                      featureKey={key}
+                      title={feature.title}
+                      description={feature.description}
+                      index={index}
+                      visible={cardsVisible}
+                      expanded={expanded.has(key)}
+                      onToggle={() => toggleCard(key)}
+                      readMore={t.whyChoose.readMore}
+                      readLess={t.whyChoose.readLess}
+                    />
+                  )
+                })}
+              </div>
+            </div>
+          </div>
+
+          <div
             ref={orbRef}
             className={`flex w-full items-center justify-center overflow-visible transition-all duration-700 ${
               orbVisible ? "opacity-100 scale-100" : "opacity-0 scale-[0.92]"
@@ -190,9 +163,6 @@ export function WhyChoose() {
             </div>
           </div>
         </div>
-
-        {/* Row 2: 4 cards per row */}
-
       </div>
     </section>
   )

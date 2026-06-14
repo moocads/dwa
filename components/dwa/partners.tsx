@@ -3,6 +3,7 @@
 import type { ComponentType } from "react"
 import { BlurBall } from "@/components/blurball"
 import { useInView } from "@/hooks/use-in-view"
+import { useTranslations } from "@/contexts/locale-context"
 import ExchangeBinance from "@web3icons/react/icons/exchanges/ExchangeBinance"
 import TokenETH from "@web3icons/react/icons/tokens/TokenETH"
 import TokenBTC from "@web3icons/react/icons/tokens/TokenBTC"
@@ -107,6 +108,7 @@ function MarqueeRow({
 }
 
 export function Partners() {
+  const t = useTranslations()
   const { ref: headRef, isVisible: headVisible } = useInView()
 
   return (
@@ -149,13 +151,10 @@ export function Partners() {
           className="max-w-3xl transition-all duration-700 mx-auto text-center"
         >
           <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold text-white tracking-tight">
-            Our Partners
+            {t.partners.title}
           </h2>
           <p className="mt-4 text-sm sm:text-base leading-relaxed text-neutral-400">
-            DWA builds open connections across the world&apos;s leading blockchain
-            networks, digital assets, RWA protocols, and Web3 financial
-            infrastructure — driving ecosystem collaboration in the on-chain asset
-            era.
+            {t.partners.copy}
           </p>
         </div>
 
