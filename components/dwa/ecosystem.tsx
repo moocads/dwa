@@ -67,11 +67,11 @@ const CELLS: Cell[] = [
   { key: "card", Icon: CreditCard, col: 1, row: 0 },
   { key: "earn", Icon: TrendingUp, col: 2, row: 0 },
   { key: "wallet", Icon: Wallet, col: 0, row: 1 },
-  { key: "swap", Icon: ArrowLeftRight, col: 1, row: 1, core: true },
+  { key: "web3", Icon: Globe, col: 1, row: 1, core: true },
   { key: "ai", Icon: Bot, col: 2, row: 1 },
   { key: "lending", Icon: Coins, col: 0, row: 2 },
   { key: "social", Icon: Users, col: 1, row: 2 },
-  { key: "web3", Icon: Globe, col: 2, row: 2 },
+  { key: "swap", Icon: ArrowLeftRight, col: 2, row: 2 },
 ]
 
 const MOBILE_CELLS = [
@@ -88,7 +88,7 @@ function EcosystemMobileAccordion({
     <Accordion
       type="single"
       collapsible
-      defaultValue="swap"
+      defaultValue="web3"
       className="flex flex-col gap-3"
     >
       {MOBILE_CELLS.map((cell) => {
@@ -155,7 +155,7 @@ function Flows({
   const ccx = core.x
   const ccy = core.y
 
-  const coreActive = activeKeys.includes("swap")
+  const coreActive = activeKeys.includes("web3")
   const anyActive = activeKeys.length > 0
 
   return (
@@ -358,7 +358,7 @@ function EcosystemGrid() {
       }
     }
 
-    const core = getHeaderCenter("swap")
+    const core = getHeaderCenter("web3")
     if (sizeChanged) {
       sizeRef.current = { w: nextW, h: nextH }
       setSize({ w: nextW, h: nextH })
@@ -373,12 +373,12 @@ function EcosystemGrid() {
       if (point) cells[cell.key] = point
     }
 
-    const swapHeader = cardRefs.current
-      .get("swap")
+    const web3Header = cardRefs.current
+      .get("web3")
       ?.querySelector("[data-ecosystem-header]")
       ?.getBoundingClientRect()
-    const haloRadius = swapHeader
-      ? Math.max(swapHeader.width, swapHeader.height) * 0.72
+    const haloRadius = web3Header
+      ? Math.max(web3Header.width, web3Header.height) * 0.72
       : 72
 
     const nextPositions: FlowPositions = { core, cells, haloRadius }

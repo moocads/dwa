@@ -8,7 +8,7 @@ export const zhHant: Translations = {
     ecosystem: "生態系",
     vision: "我們的願景",
     partners: "合作夥伴",
-    launchApp: "啟動應用程式",
+    launchApp: "啟動DApp",
   },
   hero: {
     headline1: "全球首個",
@@ -18,7 +18,7 @@ export const zhHant: Translations = {
     taglineMobile2: "為所有人打造的",
     taglineMobile3: "WEB3 金融作業系統",
     taglineDesktop: ["DWA", "為所有人", "打造的 WEB3", "金融", "作業", "系統"],
-    launchApp: "啟動應用程式",
+    launchApp: "啟動DApp",
   },
   whyChoose: {
     title: "為何選擇 DWA？",
@@ -95,7 +95,7 @@ export const zhHant: Translations = {
     p2: "涵蓋交易、支付、資產管理、RWA、AI、應用基礎設施、錢包、社交與DeFi 借貸，九大支柱共同形成鏈上資產完整閉環。",
     bannerAlt: "DWA 生態全覽",
     gridHintMobile: "點選模組即可展開查看功能說明。",
-    gridHintDesktop: "流動性由中央的 DWA Swap 向各模組擴散。滑過或點擊卡片即可查看其功能。",
+    gridHintDesktop: "Web3 應用網路位於中心，連接各個模組。懸停或點擊卡片可查看模組說明。",
     modules: {
       rwa: {
         name: "RWA 協議",
@@ -117,6 +117,11 @@ export const zhHant: Translations = {
         tag: "去中心化多鏈錢包",
         desc: "統一管理全網資產，提供安全便捷的 Web3 入口，保障用戶資產的絕對控制權與隱私安全。",
       },
+      web3: {
+        name: "Web3 應用網路",
+        tag: "去中心化應用開發",
+        desc: "大規模 Web3 應用基礎設施，支持免域伺服器運行，實現低成本甚至零成本的應用部署與全球分發。",
+      },
       swap: {
         name: "DWA Swap",
         tag: "去中心化交易所",
@@ -136,12 +141,7 @@ export const zhHant: Translations = {
         name: "DWA Social",
         tag: "去中心化身份與社交",
         desc: "建立去中心化身份(DID)，沉淀鏈上社交關係與信用，為用戶構建專屬的 Web3 社交名片。",
-      },
-      web3: {
-        name: "Web3 應用網路",
-        tag: "去中心化應用開發",
-        desc: "大規模 Web3 應用基礎設施，支持免域伺服器運行，實現低成本甚至零成本的應用部署與全球分發。",
-      },
+      }
     },
   },
   vision: {

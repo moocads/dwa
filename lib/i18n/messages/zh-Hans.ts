@@ -8,7 +8,7 @@ export const zhHans: Translations = {
     ecosystem: "生态系统",
     vision: "我们的愿景",
     partners: "合作伙伴",
-    launchApp: "启动应用",
+    launchApp: "启动DApp",
   },
   hero: {
     headline1: "全球首个",
@@ -17,7 +17,7 @@ export const zhHans: Translations = {
     tagline: "DWA 是由 AI × Web3 × DAO × RWA 驱动的 Web3 金融操作系统",
     taglineMobile2: "面向所有人的",
     taglineMobile3: "WEB3 金融操作系统",
-    launchApp: "启动应用"
+    launchApp: "启动DApp"
   },
   whyChoose: {
     title: "为什么选择 DWA？",
@@ -94,7 +94,8 @@ export const zhHans: Translations = {
     p2: "覆盖交易、支付、资产管理、RWA、AI、应用基础设施、钱包、社交与DeFi 借贷，九大支柱共同形成链上资产完整闭环。",
     bannerAlt: "DWA 生态全景",
     gridHintMobile: "点击模块可展开查看其功能。",
-    gridHintDesktop: "流动性由中心的 DWA Swap 向各模块流动。悬停或点击卡片可查看模块说明。",
+    gridHintDesktop:
+      "Web3 应用网络位于中心，连接各个模块。悬停或点击卡片可查看模块说明。",
     modules: {
       rwa: {
         name: "RWA 协议",

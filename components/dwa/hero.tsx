@@ -41,7 +41,7 @@ export function Hero() {
               {t.hero.headline1}
               <br />
               <span className="text-dwa-orange">{t.hero.headline2}</span>
-              <br />
+              
               {t.hero.headline3}
             </h1>
 

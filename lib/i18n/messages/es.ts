@@ -126,7 +126,7 @@ export const es: Translations = {
     bannerAlt: "Visión general del ecosistema DWA",
     gridHintMobile: "Toca un módulo para expandirlo y ver qué hace.",
     gridHintDesktop:
-      "La liquidez fluye desde DWA Swap en el centro hacia todos los módulos. Pasa el cursor o toca una tarjeta para ver qué hace.",
+      "La red de aplicaciones Web3 está en el centro y conecta todos los módulos. Pasa el cursor o toca una tarjeta para ver qué hace.",
     modules: {
       rwa: {
         name: "Protocolo RWA",

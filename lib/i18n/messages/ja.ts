@@ -108,7 +108,7 @@ export const ja: Translations = {
     bannerAlt: "DWA エコシステム概要",
     gridHintMobile: "モジュールをタップすると詳細を確認できます。",
     gridHintDesktop:
-      "流動性は中央の DWA Swap から各モジュールへ流れます。カードをホバーまたはタップして内容を確認してください。",
+      "Web3アプリネットワークが中央にあり、すべてのモジュールをつなぎます。カードをホバーまたはタップして内容を確認してください。",
     modules: {
       rwa: {
         name: "RWA プロトコル",
