@@ -71,11 +71,12 @@ export interface Translations {
     modules: Record<EcosystemModuleKey, { name: string; tag: string; desc: string }>
   }
   vision: {
-    label: string
     title: string
-    titleHighlight: string
-    p1: string
-    p2: string
+    subtitle: string
+    intro: string
+    definition: string
+    pillars: [string, string, string, string, string, string]
+    closing: string
   }
   partners: {
     title: string

@@ -22,6 +22,11 @@ type IconProps = {
 type Partner = {
   name: string
   Icon?: ComponentType<IconProps>
+  logoSrc?: string
+  /** Light/white logos on dark cards — skip invert filter */
+  logoLight?: boolean
+  /** White-on-black PNG — blend black away on dark cards */
+  logoKnockout?: boolean
   monogram?: string
   variant?: "mono" | "branded"
 }
@@ -30,20 +35,37 @@ const ROW_1: Partner[] = [
   { name: "Binance", Icon: ExchangeBinance },
   { name: "Ethereum", Icon: TokenETH },
   { name: "Bitcoin", Icon: TokenBTC },
-  { name: "Ondo Finance", monogram: "ON" },
+  { name: "Ondo Finance", logoSrc: "/ondo-logo.svg" },
   { name: "Solana", Icon: TokenSOL },
   { name: "Pax Gold", Icon: TokenPAXG },
 ]
 
 const ROW_2: Partner[] = [
   { name: "Tether Gold", Icon: TokenXAUT, variant: "branded" },
-  { name: "Rayls Labs", monogram: "RL" },
+  { name: "Rayls Labs", logoSrc: "/rayls_lab_logo.svg", logoLight: true },
   { name: "Centrifuge", Icon: TokenCFG },
-  { name: "Canton Network", monogram: "CN" },
+  {
+    name: "Canton Network",
+    logoSrc: "/canton_network_logo.png",
+    logoLight: true,
+    logoKnockout: true,
+  },
   { name: "Polymesh", Icon: TokenPOLYX },
 ]
 
 function PartnerLogo({ partner }: { partner: Partner }) {
+  if (partner.logoSrc) {
+    return (
+      <img
+        src={partner.logoSrc}
+        alt=""
+        className={`h-9 w-9 shrink-0 object-contain opacity-70 transition-all duration-300 group-hover:opacity-100 group-hover:drop-shadow-[0_0_10px_rgba(227,88,6,0.85)] ${
+          partner.logoKnockout ? "mix-blend-screen" : ""
+        } ${partner.logoLight ? "" : "brightness-0 invert"}`}
+      />
+    )
+  }
+
   if (partner.Icon) {
     const Icon = partner.Icon
     const variant = partner.variant ?? "mono"

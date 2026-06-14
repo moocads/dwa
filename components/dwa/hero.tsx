@@ -10,7 +10,7 @@ export function Hero() {
   const t = useTranslations()
   const { ref: titleRef, isVisible: titleVisible } = useInView()
 
-  const [dwa, aWeb3, financial, operation, system, forEveryone] = t.hero.taglineDesktop
+
 
   return (
     <section id="home" className="relative min-h-screen bg-dwa-bg overflow-hidden pt-20">
@@ -61,14 +61,14 @@ export function Hero() {
                   {t.hero.taglineMobile3}
                 </p>
               </div>
-              <div className="hidden flex-wrap items-center justify-center gap-x-2 sm:flex">
+              {/* <div className="hidden flex-wrap items-center justify-center gap-x-2 sm:flex">
                 <p className="text-dwa-orange text-md font-bold">{dwa}</p>
                 <p className="text-dwa-text text-md">{aWeb3}</p>
                 <p className="text-dwa-text text-md">{financial}</p>
                 <p className="text-dwa-text text-md">{operation}</p>
                 <p className="text-dwa-text text-md">{system}</p>
                 <p className="text-dwa-orange text-md">{forEveryone}</p>
-              </div>
+              </div> */}
             </div>
           </div>
 

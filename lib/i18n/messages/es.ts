@@ -176,11 +176,20 @@ export const es: Translations = {
     },
   },
   vision: {
-    label: "NUESTRA VISIÓN",
-    title: "Una civilización de activos autogobernada.",
-    titleHighlight: "Para el mundo.",
-    p1: "Activos de todas partes, accesibles para todos.",
-    p2: "Cada estrategia la defines tú, y la ejecuta la AI.",
+    title: "La visión definitiva de DWA",
+    subtitle: "Civilización autónoma de gestión de activos",
+    intro: "La forma definitiva de DWA no es una plataforma, sino:",
+    definition: "Un sistema global autónomo de civilización de gestión de activos.",
+    pillars: [
+      "Activos de todo el mundo",
+      "Estrategias ejecutadas por AI",
+      "Seguridad garantizada on-chain",
+      "Reglas definidas por DAO",
+      "Valor compartido por los usuarios",
+      "Un ecosistema infinitamente escalable",
+    ],
+    closing:
+      "Esta es la próxima generación de BlackRock: no pertenece a ninguna institución, pertenece a los usuarios globales.",
   },
   partners: {
     title: "Nuestros socios",
