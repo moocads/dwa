@@ -8,17 +8,17 @@ export const fr: Translations = {
     ecosystem: "Écosystème",
     vision: "Notre vision",
     partners: "Partenaires",
-    launchApp: "Lancer l'app",
+    launchApp: "Lancer la DApp",
   },
   hero: {
     headline1: "LE PREMIER",
     headline2: "BLACKROCK",
     headline3: "DÉCENTRALISÉ AU MONDE",
     tagline: "DWA est un système d'exploitation financier Web3 propulsé par AI × Web3 × DAO × RWA",
-    taglineMobile2: "UN SYSTÈME D'EXPLOITATION",
-    taglineMobile3: "FINANCIER WEB3 POUR TOUS",
+    taglineMobile2: "Pour tous",
+    taglineMobile3: "SYSTÈME D'EXPLOITATION FINANCIER WEB3",
     taglineDesktop: ["DWA", "UN SYSTÈME", "D'EXPLOITATION", "FINANCIER", "WEB3", "POUR TOUS"],
-    launchApp: "Lancer l'app",
+    launchApp: "Lancer la DApp",
   },
   whyChoose: {
     title: "Pourquoi choisir DWA ?",
@@ -34,7 +34,7 @@ export const fr: Translations = {
           "Réseaux décentralisés et communication chiffrée pour résister aux DDoS, aux fuites et au contrôle des plateformes.",
       },
       quantum: {
-        title: "Sécurité résistante au quantique",
+        title: "Sécurité quantique",
         description:
           "Cryptographie avancée conçue pour une résilience durable face aux menaces informatiques futures.",
       },
@@ -58,8 +58,8 @@ export const fr: Translations = {
     readLess: "Voir moins",
   },
   technology: {
-    title: "Technologie",
-    subtitle: "Technologie de base",
+    title: "Technologie de base",
+    subtitle: "Technologie de base DWA",
     bannerAlt: "Technologie de base DWA",
     protocols: {
       network: {
@@ -121,65 +121,66 @@ export const fr: Translations = {
   },
   ecosystem: {
     title: "Écosystème",
-    p1: "DWA n'est pas un produit à fonction unique : c'est un système d'exploitation financier Web3 construit sur neuf piliers d'écosystème.",
-    p2: "Trading, paiements, gestion d'actifs, RWA, AI, infrastructure applicative, wallets, social et lending : ces neuf piliers forment une boucle complète pour les actifs on-chain.",
-    bannerAlt: "Vue d'ensemble de l'écosystème DWA",
-    gridHintMobile: "Touchez un module pour l'ouvrir et voir son rôle.",
+    p1: "Les neuf piliers de l'écosystème DWA : construire une boucle financière Web3 complète",
+    p2: "Trading, paiements, gestion d'actifs, RWA, AI, infrastructure applicative, wallets, social et lending DeFi : ces neuf piliers forment une boucle complète pour les actifs on-chain.",
+    bannerAlt: "Panorama de l'écosystème DWA",
+    gridHintMobile:
+      "Le réseau d'applications Web3 est au centre et relie chaque module. Survolez ou touchez une carte pour voir son rôle.",
     gridHintDesktop:
       "Le réseau d'applications Web3 est au centre et relie chaque module. Survolez ou touchez une carte pour voir son rôle.",
     modules: {
       rwa: {
         name: "Protocole RWA",
-        tag: "Actifs du monde réel",
-        desc: "Connecte les actifs du monde réel (immobilier, obligations, fonds, actions, or, ETF) à la liquidité Web3.",
+        tag: "Actifs réels on-chain",
+        desc: "Canal de numérisation des actifs traditionnels : immobilier, obligations et plus, transformés en tokens on-chain pour une tokenisation conforme et une circulation libre.",
       },
       card: {
         name: "DWA Card",
-        tag: "Paiements",
-        desc: "Relie les crypto-actifs aux dépenses du monde réel et au règlement mondial des paiements.",
+        tag: "Carte de paiement Web3",
+        desc: "Relie la crypto et les dépenses réelles avec des commerçants mondiaux, pour des paiements quotidiens en actifs numériques et un règlement fiat en temps réel.",
       },
       earn: {
         name: "DWA Earn",
-        tag: "Rendement",
-        desc: "Allocation d'actifs, agrégation de stratégies et services financiers on-chain pour les utilisateurs.",
+        tag: "Plateforme de gestion on-chain",
+        desc: "Moteur intelligent de croissance d'actifs avec stratégies de staking et de lending, agrégation de rendement et appréciation stable des actifs.",
       },
       wallet: {
         name: "DWA Wallet",
-        tag: "Compte",
-        desc: "Identité on-chain unifiée, gestion d'actifs multi-chaînes, historique des transactions et accès à l'écosystème.",
+        tag: "Wallet multichaîne décentralisé",
+        desc: "Gestion unifiée des actifs sur tout le réseau — une passerelle Web3 sécurisée et pratique avec contrôle absolu et protection de la vie privée.",
       },
       swap: {
         name: "DWA Swap",
-        tag: "Cœur de liquidité",
-        desc: "Swaps d'actifs on-chain, trading cross-chain et agrégation de liquidité : le cœur qui alimente tout l'écosystème DWA.",
+        tag: "Exchange décentralisé",
+        desc: "Le cœur de liquidité de l'écosystème : swaps on-chain sûrs et efficaces, trading cross-chain et agrégation profonde de liquidité.",
       },
       ai: {
         name: "AI Agent",
-        tag: "Intelligence",
-        desc: "Analyse de marché, assistance stratégique, identification des risques et aide automatisée à la décision financière.",
+        tag: "Moteur financier intelligent",
+        desc: "Moteur financier intelligent avec abonnements aux stratégies AI et gestion patrimoniale automatisée pour des décisions plus précises et efficaces.",
       },
       lending: {
-        name: "DWA Lending",
-        tag: "Crédit",
-        desc: "Lending on-chain, collatéralisation et libération de liquidité pour maximiser l'efficacité des actifs.",
+        name: "Lending DeFi",
+        tag: "Protocole de prêt et staking",
+        desc: "Services de prêt et staking décentralisés qui libèrent la liquidité, améliorent l'efficacité du capital et apportent un levier financier puissant à l'écosystème.",
       },
       social: {
         name: "DWA Social",
-        tag: "Identité",
-        desc: "Identité décentralisée (DID), relations on-chain, crédit social et profil Web3.",
+        tag: "Identité et social décentralisés",
+        desc: "Construit une identité décentralisée (DID), des relations sociales et un crédit on-chain, et un profil social Web3 dédié pour chaque utilisateur.",
       },
       web3: {
         name: "Réseau d'apps Web3",
-        tag: "Infrastructure",
-        desc: "Déploiement d'apps Web3 à faible coût avec exécution serverless, accès mondial et évolutivité de l'écosystème.",
+        tag: "Développement d'apps décentralisées",
+        desc: "Infrastructure Web3 à grande échelle avec exécution serverless sans domaine — déploiement d'apps à faible coût ou coût nul et distribution mondiale.",
       },
     },
   },
   vision: {
-    title: "La vision ultime de DWA",
+    title: "Notre vision",
     subtitle: "Civilisation autonome de gestion d'actifs",
-    intro: "La forme ultime de DWA n'est pas une plateforme, mais :",
-    definition: "Un système mondial autonome de civilisation de gestion d'actifs.",
+    intro: "La forme ultime de DWA n'est pas une plateforme,",
+    definition: "DWA est un système mondial autonome de civilisation de gestion d'actifs",
     pillars: [
       "Des actifs du monde entier",
       "Des stratégies exécutées par l'AI",
@@ -192,8 +193,8 @@ export const fr: Translations = {
       "C'est la prochaine génération de BlackRock : elle n'appartient à aucune institution, elle appartient aux utilisateurs du monde entier.",
   },
   partners: {
-    title: "Nos partenaires",
-    copy: "DWA crée des connexions ouvertes avec les principaux réseaux blockchain, actifs numériques, protocoles RWA et infrastructures financières Web3 du monde, pour accélérer la collaboration de l'écosystème à l'ère des actifs on-chain.",
+    title: "Partenaires",
+    copy: "DWA établit des connexions ouvertes avec les principaux réseaux blockchain, actifs numériques, protocoles RWA et infrastructures financières Web3 du monde, pour accélérer la collaboration de l'écosystème à l'ère des actifs on-chain.",
   },
   footer: {
     copyright: "© {year} DWA Labs. Tous droits réservés.",
