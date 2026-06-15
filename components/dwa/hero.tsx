@@ -53,7 +53,7 @@ export function Hero() {
             </div>
 
             <div className="mt-8 text-center">
-              <div className="flex flex-col items-center gap-2 sm:hidden">
+              {/* <div className="flex flex-col items-center gap-2 sm:hidden">
                 <p className="text-dwa-orange text-lg font-bold">DWA</p>
                 <p className="text-dwa-text text-base leading-snug">
                   {t.hero.taglineMobile2}
@@ -61,7 +61,7 @@ export function Hero() {
                 <p className="text-dwa-orange text-base font-semibold">
                   {t.hero.taglineMobile3}
                 </p>
-              </div>
+              </div> */}
               {/* <div className="hidden flex-wrap items-center justify-center gap-x-2 sm:flex">
                 <p className="text-dwa-orange text-md font-bold">{dwa}</p>
                 <p className="text-dwa-text text-md">{aWeb3}</p>
