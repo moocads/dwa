@@ -14,7 +14,7 @@ const montserrat = Montserrat({
 export const metadata: Metadata = {
   title: 'DWA - Decentralized Web Asset',
   description: 'The World\'s First Decentralized Blackrock - AI x Web3 x DAO x RWA Asset Management Network',
-  generator: 'v0.app',
+  
   icons: {
     icon: [
       {
@@ -26,8 +26,8 @@ export const metadata: Metadata = {
         media: '(prefers-color-scheme: dark)',
       },
       {
-        url: '/icon.svg',
-        type: 'image/svg+xml',
+        url: '/favicon.ico',
+        type: 'image/x-icon',
       },
     ],
     apple: '/apple-icon.png',
