@@ -125,9 +125,9 @@ export const fr: Translations = {
     p2: "Trading, paiements, gestion d'actifs, RWA, AI, infrastructure applicative, wallets, social et lending DeFi : ces neuf piliers forment une boucle complète pour les actifs on-chain.",
     bannerAlt: "Panorama de l'écosystème DWA",
     gridHintMobile:
-      "Le réseau d'applications Web3 est au centre et relie chaque module. Survolez ou touchez une carte pour voir son rôle.",
+      "Survolez ou touchez une carte pour voir son rôle.",
     gridHintDesktop:
-      "Le réseau d'applications Web3 est au centre et relie chaque module. Survolez ou touchez une carte pour voir son rôle.",
+      "Survolez ou touchez une carte pour voir son rôle.",
     modules: {
       rwa: {
         name: "Protocole RWA",

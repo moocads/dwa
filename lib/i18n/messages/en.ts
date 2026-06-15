@@ -125,9 +125,9 @@ export const en: Translations = {
     p2: "Covering trading, payments, asset management, RWA, AI, app infrastructure, wallets, social, and DeFi lending — nine pillars forming a complete on-chain asset loop.",
     bannerAlt: "DWA ecosystem overview",
     gridHintMobile:
-      "Web3 App Network sits at the center, connecting every module. Hover or tap a card to read what it does.",
+      "Hover or tap a card to read what it does.",
     gridHintDesktop:
-      "Web3 App Network sits at the center, connecting every module. Hover or tap a card to read what it does.",
+      "Hover or tap a card to read what it does.",
     modules: {
       rwa: {
         name: "RWA Protocol",

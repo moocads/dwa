@@ -94,8 +94,8 @@ export const zhHant: Translations = {
     p1: "DWA 九大生態支柱：構建完整的 Web3 金融閉環",
     p2: "涵蓋交易、支付、資產管理、RWA、AI、應用基礎設施、錢包、社交與 DeFi 借貸，九大支柱共同形成鏈上資產完整閉環。",
     bannerAlt: "DWA 生態全景",
-    gridHintMobile: "Web3 應用網路位於中心，連接各個模組。懸停或點擊卡片可查看模組說明。",
-    gridHintDesktop: "Web3 應用網路位於中心，連接各個模組。懸停或點擊卡片可查看模組說明。",
+    gridHintMobile: "懸停或點擊卡片可查看模組說明。",
+    gridHintDesktop: "懸停或點擊卡片可查看模組說明。",
     modules: {
       rwa: {
         name: "RWA 協議",

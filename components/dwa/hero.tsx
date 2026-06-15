@@ -3,6 +3,7 @@
 import { useInView } from "@/hooks/use-in-view"
 import dynamic from "next/dynamic"
 import { useTranslations } from "@/contexts/locale-context"
+import Link from "next/link"
 
 const HeroGrid = dynamic(() => import("@/components/HeroGrid"), { ssr: false })
 
@@ -72,9 +73,11 @@ export function Hero() {
             </div>
           </div>
 
+          <Link href="https://app.dwaweb3.io" target="_blank">
           <button className="border border-dwa-orange bg-dwa-orange text-white px-4 mt-8 sm:px-6 py-4 rounded-full text-md sm:text-md font-semibold hover:bg-dwa-orange hover:text-white transition-all duration-300 shrink-0">
             {t.hero.launchApp}
           </button>
+          </Link>
         </div>
       </div>
     </section>

@@ -94,8 +94,8 @@ export const zhHans: Translations = {
     p1: "DWA 九大生态支柱：构建完整的 Web3 金融闭环",
     p2: "覆盖交易、支付、资产管理、RWA、AI、应用基础设施、钱包、社交与DeFi 借贷，九大支柱共同形成链上资产完整闭环。",
     bannerAlt: "DWA 生态全景",
-    gridHintMobile: "Web3 应用网络位于中心，连接各个模块。悬停或点击卡片可查看模块说明。",
-    gridHintDesktop: "Web3 应用网络位于中心，连接各个模块。悬停或点击卡片可查看模块说明。",
+    gridHintMobile: "悬停或点击卡片可查看模块说明。",
+    gridHintDesktop: "悬停或点击卡片可查看模块说明。",
     modules: {
       rwa: {
         name: "RWA 协议",

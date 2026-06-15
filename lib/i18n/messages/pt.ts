@@ -125,9 +125,9 @@ export const pt: Translations = {
     p2: "Abrangendo trading, pagamentos, gestão de ativos, RWA, AI, infraestrutura de apps, wallets, social e lending DeFi — nove pilares formando um ciclo completo para ativos on-chain.",
     bannerAlt: "Panorama do ecossistema DWA",
     gridHintMobile:
-      "A rede de aplicativos Web3 fica no centro e conecta todos os módulos. Passe o mouse ou toque em um card para ver o que ele faz.",
+      "Passe o mouse ou toque em um card para ver o que ele faz.",
     gridHintDesktop:
-      "A rede de aplicativos Web3 fica no centro e conecta todos os módulos. Passe o mouse ou toque em um card para ver o que ele faz.",
+      "Passe o mouse ou toque em um card para ver o que ele faz.",
     modules: {
       rwa: {
         name: "Protocolo RWA",
