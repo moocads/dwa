@@ -106,7 +106,7 @@ export function Navbar() {
           </div>
 
           <div className="flex items-center gap-2 sm:gap-3 shrink-0">
-            <Link href="https://app.dwaweb3.io" target="_blank">
+            <Link href="https://dapp.dwaweb3.online/home" target="_blank">
             <button className="border border-dwa-orange text-dwa-orange px-4 sm:px-6 py-2 rounded-full text-xs sm:text-sm font-semibold hover:bg-dwa-orange hover:text-white transition-all duration-300 shrink-0">
               {t.nav.launchApp}
             </button>
