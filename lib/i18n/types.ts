@@ -7,6 +7,9 @@ export type LocaleCode =
   | "ja"
   | "pt"
   | "ar"
+  | "vi"
+  | "th"
+  | "ko"
 
 export type FeatureKey =
   | "lowCost"
@@ -105,6 +108,9 @@ export const LANGUAGES: LanguageOption[] = [
   { code: "ja", label: "日本語", flag: "jp" },
   { code: "pt", label: "Português", flag: "pt" },
   { code: "ar", label: "العربية", flag: "sa" },
+  { code: "vi", label: "Tiếng Việt", flag: "vn" },
+  { code: "th", label: "ไทย", flag: "th" },
+  { code: "ko", label: "한국어", flag: "kr" },
 ]
 
 export const DEFAULT_LOCALE: LocaleCode = "en"
